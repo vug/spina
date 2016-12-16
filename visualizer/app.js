@@ -1,5 +1,6 @@
 var timeline = document.getElementById('time-slider');
 var buttonPlay = document.getElementById('button-play');
+var button2DExample = document.getElementById('btn-ex-2D');
 var display = document.getElementById('display');
 var isPlaying = false;
 var stepNo = 0;
@@ -17,6 +18,8 @@ function init() {
 
 function addListeners() {
     inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
+    var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
+    button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
     buttonPlay.addEventListener('click', function() { 
         isPlaying ? pause() : start(); 
     });
