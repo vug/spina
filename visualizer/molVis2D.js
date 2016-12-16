@@ -7,6 +7,7 @@ function visualizeMolecules() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var pos = data[stepNo]['pos'];
     var vel = data[stepNo]['vel'];
+    var acc = data[stepNo]['acc'];
     for (var i=0; i<pos.length; i++) {
         var p = pos[i];
         var vx = vel[i][0];
@@ -21,5 +22,11 @@ function visualizeMolecules() {
         ctx.beginPath();
         ctx.arc(screenX, screenY, radius, 0, Math.PI * 2.0);
         ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'green';
+        ctx.moveTo(screenX, screenY);
+        ctx.lineTo(screenX + acc[i][0], screenY - acc[i][1]);
+        ctx.stroke();
     }       
 }
