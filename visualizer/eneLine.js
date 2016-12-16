@@ -19,7 +19,7 @@ function createEnergyPlot() {
     };
     var step = {
         x: [1, 1],
-        y: [-200, 20],
+        y: [-1, 1],
         mode: 'lines',
         name: 'current step'
     }
@@ -40,6 +40,9 @@ function createEnergyPlot() {
             kinetic.y = kin;
             potential.y = pot;
             total.y = ene;
+            var maxKin = Math.max.apply(null, kin);
+            var minPot = Math.min.apply(null, pot);
+            step.y = [minPot, maxKin];
             Plotly.redraw('plot-energies');
     };
 
