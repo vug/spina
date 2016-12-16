@@ -27,14 +27,10 @@ function createVelocityHistogram() {
     }
     Plotly.newPlot('plot-vel-dist', plotData, layout, {showLink: false});
 
-    var updateVelocityDataRedraw = function(samples) {
-        plotData[0].x = samples;
-        Plotly.redraw('plot-vel-dist');
-    }
-
     updateVelocityHistogram = function() {
         var vel = data[stepNo]['vel'];
         var velMag = vel.map(v => Math.sqrt(v[0] * v[0] + v[1] * v[1]));
-        updateVelocityDataRedraw(velMag);        
-    }
+        plotData[0].x = velMag;
+        Plotly.redraw('plot-vel-dist');
+    };
 }
