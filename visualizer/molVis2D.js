@@ -9,7 +9,9 @@ function visualizeMolecules() {
     var vel = data[stepNo]['vel'];
     for (var i=0; i<pos.length; i++) {
         var p = pos[i];
-        var v_mag = (vel[i][0] ** 2 + vel[i][1] ** 2) ** 0.5;
+        var vx = vel[i][0];
+        var vy = vel[i][1];
+        var v_mag = Math.sqrt(vx * vx + vy * vy);
         var green = parseInt(v_mag / 1.5 * 255);
         var rgb = 'rgb(200,' + green + ',100)';
         ctx.fillStyle = rgb;
