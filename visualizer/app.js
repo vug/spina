@@ -24,7 +24,7 @@ function addListeners() {
         stepNo = parseInt(timeline.value);
         render();
     });
-    document.getElementById('number-sps').addEventListener('change', function(e) {
+    document.getElementById('number-sps').addEventListener('change', function() {
         var sps = parseInt(this.value);
         setStepsPerSecond(sps);
     });    
@@ -63,8 +63,7 @@ function render() {
 }
 
 function writeInfo() {
-    var infoText = 'Step: ' + stepNo.toString();
-    display.innerText = infoText;
+    display.innerText = 'Step: ' + stepNo.toString();
 }
 
 function setStepsPerSecond(sps) {
