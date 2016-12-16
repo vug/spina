@@ -60,6 +60,7 @@ function render() {
     visualizeMolecules();
     updateVelocityHistogram();
     updateEnergyStepLine();
+    renderTotalPotential();
 }
 
 function writeInfo() {
