@@ -33,15 +33,7 @@ var fragmentShader = `
             vec2 d = p - pos[i];
             float r = sqrt(d.x * d.x + d.y * d.y);
             if (i == selectedParticleIdx) continue;
-
-            // val += pow(0.0000001 * lj(r), 0.25);
             val += lj(r);
-            // val += lj(r);
-
-            // val += 0.01 * inverse_sqr(r); // gravity
-
-            // float radius = 0.1;  // hard-sphere
-            // val += smoothstep(radius-0.01, radius+0.01, r);
         }
         val = clamp(val, -1.0, 1.0);
 
