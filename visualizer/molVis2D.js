@@ -3,7 +3,7 @@ var ctx = canvas.getContext('2d');
 
 function visualizeMolecules() {
     var scale = canvas.width / 10.;
-    var radius = scale / 10;
+    var radius = scale / 8.0;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var pos = data[stepNo]['pos'];
     var vel = data[stepNo]['vel'];
