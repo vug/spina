@@ -38,6 +38,7 @@ function dataFileLoaded() {
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
     updateEnergies();
+    updateVelocityLayout();
     render();
 }
 
