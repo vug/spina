@@ -17,7 +17,7 @@ function visualizeMolecules() {
         ctx.fillStyle = rgb;
 
         ctx.beginPath();
-        ctx.arc(p[0]*scale, p[1]*scale, radius, 0, Math.PI * 2.0);
+        ctx.arc(p[0]*scale, canvas.height - p[1]*scale, radius, 0, Math.PI * 2.0);
         ctx.fill();
     }       
 }
