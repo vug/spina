@@ -18,13 +18,19 @@
 <body>
   <div class="container">
     <div style="margin-top: 10px">
-      <label>Load: </label>
-      <button class="btn btn-default btn-sm"><a href="visualizer.html?file=../example_data/mds1_states.json">2D Example</a></button>
-      <button class="btn btn-default btn-sm">3D Example</button>
-      <label class="btn btn-default btn-sm btn-file">
-        Local File <input type="file" style="display: none;" id="input-file">
-      </label>
-      <hr>    
+      <span>
+        <label>Load: </label>
+        <button class="btn btn-default btn-sm"><a href="visualizer.html?file=../example_data/mds1_states.json">2D Example</a></button>
+        <button class="btn btn-default btn-sm">3D Example</button>
+        <label class="btn btn-default btn-sm btn-file">
+          Local File <input type="file" style="display: none;" id="input-file">
+        </label>
+      </span>
+      <span class="pull-right">
+        <label for="number-sps"><b>Settings:</b> StepsPerSecond: </label>
+        <input type="number" id="number-sps" value=30 min=1 max=200>
+      </span>
+      <hr>
     </div>
 
     <div class="row">
@@ -43,13 +49,6 @@
         <div id="plot-total-potential" class="bordered" style="width: 400px; height: 400px; display: inline-block;"></div>
       </div>
     </div>
-    <hr>
-
-    <h3>Settings</h3>
-    <div>
-      <label for="number-sps">StepsPerSecond: </label>
-      <input type="number" id="number-sps" value=30 min=1 max=200>
-    </div>    
   </div>  
 
   <nav class="navbar navbar-inverse navbar-fixed-bottom">
