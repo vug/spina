@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Spina - Toy MD Simulator/Visualizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="vendor/css/bootstrap.css">
+  <script src="vendor/js/jquery.js"></script>
+  <script src="vendor/js/bootstrap.js"></script>
+  <style>
+    .container {
+      width: auto;
+      max-width: 680px;
+      padding: 0 15px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1>Spina <small>A Toy Molecular Dynamics Simulator and Visualizer</small></h1>
+  </div>  
+
+  <h2>Introduction</h2>
+  <p>This is a self-assigned sample project for my application to DESRES. My goal is to show my enthusiasm about the topics on which DESRES is working, and also to provide a public code sample and a demostration page for the interviewers to analyze, and maybe even enjoy. :-)</p>
+
+  <h2>Components</h2>
+  <p>Components of Spina are following</p>
+  <ul>
+    <li>A toy simulator written in Python that runs MD simulations of N atoms which only interact with Lennard-Jones potential.</li>
+    <li>A browser based simulation results visualizer. Results consists of the states of particles at each simulation step and visualizer animates particles in time and also plots additional graphs such as total kinetic and potential energies of the system.</li>
+    <li>Jupyter Notebooks and about pages that explain how the system works.</li>
+  </ul>
+  <p><a href="https://en.wikipedia.org/wiki/Glasses#Invention_of_eyeglasses">Alessandro della Spina</a> of Pisa was an Italian Friar from early 14th century who mass produced eyeglasses first.</p>
+
+  <h2>Visualizer</h2>
+  <p>Please either choose one of the examples provided with the project or if you had run the simulator yourself and produced a simulation result file to your local machine, load that one by clicking on the respective button.</p>
+  <div> 
+    <button class="btn btn-default btn-sm"><a href="visualizer.html?file=../example_data/mds1_states.json">2D Example</a></button>
+    <button class="btn btn-default btn-sm">3D Example</button>
+    <label class="btn btn-default btn-sm btn-file">
+        Local File <input type="file" style="display: none;" id="input-file">
+    </label>    
+  </div>
+
+</div>
+</body>
+</html>

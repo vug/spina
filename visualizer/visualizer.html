@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Spina - Visualizer</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="vendor/css/bootstrap.css">
+  <script src="vendor/js/jquery.js"></script>
+  <script src="vendor/js/bootstrap.js"></script>
+  <script src="vendor/js/plotly.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div style="margin-top: 10px">
+      <label>Load: </label>
+      <button class="btn btn-default btn-sm"><a href="visualizer.html?file=../example_data/mds1_states.json">2D Example</a></button>
+      <button class="btn btn-default btn-sm">3D Example</button>
+      <label class="btn btn-default btn-sm btn-file">
+        Local File <input type="file" style="display: none;" id="input-file">
+      </label>
+      <hr>    
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <canvas id="canvas" width="400" height="400" class="bordered"></canvas>
+      </div>
+      <div class="col-md-6">
+        <div id="plot-energies" class="bordered" style="width: 400px; height: 400px;"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div id="plot-vel-dist" class="bordered" style="width: 400px; height: 400px; display: inline-block;"></div>
+      </div>
+      <div class="col-md-6">
+        <div id="bottom-left" class="bordered" style="width: 400px; height: 400px; display: inline-block;"></div>
+      </div>
+    </div>
+    <hr>
+
+    <h3>Settings</h3>
+    <div>
+      <label for="number-sps">StepsPerSecond: </label>
+      <input type="number" id="number-sps" value=30 min=1 max=200>
+    </div>    
+  </div>  
+
+  <nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Spina Visualizer</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="#">Home</a></li>
+        <li>
+          <button id="button-play" class="btn btn-default navbar-btn" aria-label="Left Align">
+            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+          </button>
+        </li>           
+        <li>
+          <form class="navbar-form">
+            <input id="time-slider" min=0 value=0 type="range">
+          </form>
+        </li>
+        <li>
+          <span id="display"></span>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <script>
+  </script>
+  <script src="molVis2D.js"></script>
+  <script src="velHist.js"></script>
+  <script src="eneLine.js"></script>
+  <script src="dataLoader.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
