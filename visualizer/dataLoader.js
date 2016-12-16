@@ -9,8 +9,17 @@ function loadFile(callback) {
     reader.onload = function(e) {
         var content = e.target.result;
         data = JSON.parse(content);
-        callback(data);
+        callback();
     };
     console.log('loading:', selectedFile.name, selectedFile.size, selectedFile.type);
     reader.readAsText(selectedFile);    
+}
+
+function requestSimulationData(url, callback) {
+    console.log('ajax request sent.');
+    $.getJSON(url, function(json) {
+        console.log('ajax response returned.');
+        data = json;
+        callback();
+    });
 }
