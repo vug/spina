@@ -15,6 +15,7 @@ class Visualizer {
         this.potentialVisualization = null;
         this.isPlaying = false;
         this.stepNo = 0;
+        this.data = null;
         this.addListeners();
         this.animate();
     }
@@ -31,7 +32,7 @@ class Visualizer {
         });
         this.timeline.addEventListener('input', () => {
             this.stepNo = parseInt(this.timeline.value);
-            if (data) this.render();
+            if (this.data) this.render();
         });
         document.getElementById('number-sps').addEventListener('change', function() {
             var sps = parseInt(this.value);
@@ -84,31 +85,30 @@ class Visualizer {
 
     render() {
         this.writeInfo();
-        this.moleculeVisualization.render(data, this.stepNo);
-        this.velocityHistogramPlot.updateDistribution(data, this.stepNo);
+        this.moleculeVisualization.render(this.data, this.stepNo);
+        this.velocityHistogramPlot.updateDistribution(this.data, this.stepNo);
         this.energyPlot.updateStepNoIndicator(this.stepNo);
-        this.potentialVisualization.render(data, this.stepNo);
+        this.potentialVisualization.render(this.data, this.stepNo);
     }
 
     dataFileLoaded(simData) {
-        data = simData;
+        this.data = simData;
         this.stepNo = 0;
-        numFrames = data.length;
-        kin = data.map(step => step['kin']);
-        pot = data.map(step => step['pot']);
-        ene = data.map(step => step['ene']);
+        numFrames = this.data.length;
+        kin = this.data.map(step => step['kin']);
+        pot = this.data.map(step => step['pot']);
+        ene = this.data.map(step => step['ene']);
         this.timeline.max = numFrames - 1;
         this.emptyDivs();
         this.createVisualizations();
         this.energyPlot.updateEnergyData(kin, pot, ene);
-        this.velocityHistogramPlot.updateLayout(data);
-        this.potentialVisualization.updateData(data);
+        this.velocityHistogramPlot.updateLayout(this.data);
+        this.potentialVisualization.updateData(this.data);
         this.render();
     }
 }
 
 var inputFile = document.getElementById('input-file');
-var data;
 var dimensions = 2;
 var numFrames;
 var kin, pot, ene;
