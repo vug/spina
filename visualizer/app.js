@@ -5,19 +5,24 @@ class Visualizer {
             // TODO: Get this value from simulation results file.
             dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
         }
+        this.timeline = document.getElementById('time-slider');
+        this.buttonPlay = document.getElementById('button-play');
         this.addListeners();
         requestAnimationFrame(play);
     }
 
     addListeners() {
-        inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
+        var button2DExample = document.getElementById('btn-ex-2D');
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
+
+        inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
+
         button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
-        buttonPlay.addEventListener('click', function() {
+        this.buttonPlay.addEventListener('click', function() {
             isPlaying ? pause() : start();
         });
-        timeline.addEventListener('input', function() {
-            stepNo = parseInt(timeline.value);
+        this.timeline.addEventListener('input', () => {
+            stepNo = parseInt(this.timeline.value);
             if (data) render();
         });
         document.getElementById('number-sps').addEventListener('change', function() {
@@ -27,9 +32,8 @@ class Visualizer {
     }
 }
 
-var timeline = document.getElementById('time-slider');
-var buttonPlay = document.getElementById('button-play');
-var button2DExample = document.getElementById('btn-ex-2D');
+var vis = new Visualizer();
+
 var display = document.getElementById('display');
 var isPlaying = false;
 var stepNo = 0;
@@ -51,7 +55,7 @@ function dataFileLoaded() {
     kin = data.map(step => step['kin']);
     pot = data.map(step => step['pot']);
     ene = data.map(step => step['ene']);
-    timeline.max = numFrames - 1;
+    vis.timeline.max = numFrames - 1;
     emptyDivs();
     createVisualizations();
     energyPlot.updateEnergyData(kin, pot, ene);
@@ -75,16 +79,16 @@ function createVisualizations() {
 
 function start() {
     isPlaying = true;
-    buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-    buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
+    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
+    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
 }
 
 function pause() {
     isPlaying = false;
     prevFrameTime = undefined;
     tickerTime = 0.0;
-    buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-    buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
+    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
+    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
 }
 
 function render() {
@@ -111,7 +115,7 @@ function play() {
         if( stepNo >= numFrames ) {
             stepNo = 0;
         }       
-        timeline.value = stepNo;
+        vis.timeline.value = stepNo;
         render();
     }
     requestAnimationFrame(play)
@@ -128,5 +132,3 @@ function tick() {
     tickerTime += dt;
     prevFrameTime = now;
 }
-
-var vis = new Visualizer();
