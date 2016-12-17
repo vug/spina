@@ -9,6 +9,7 @@ var tickerTime = 0.0;
 var stepsPerSecond = 30;
 var stepDuration = 1000 / stepsPerSecond;
 var dimensions = 2;
+var energyPlot;
 
 function init() {
     if (typeof document.location.search !== "undefined") {
@@ -18,7 +19,7 @@ function init() {
     }
     addListeners();
     createVelocityHistogram();
-    createEnergyPlot();    
+    energyPlot = new plotEnergies('plot-energies');
     requestAnimationFrame(play);    
 }
 
@@ -47,7 +48,7 @@ function dataFileLoaded() {
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
     createPotentialPlot2D();
-    updateEnergies();
+    energyPlot.updateEnergies(kin, pot, ene);
     updateVelocityLayout();
     render();
 }
@@ -70,7 +71,7 @@ function render() {
     writeInfo();
     visualizeMolecules();
     updateVelocityHistogram();
-    updateEnergyStepLine();
+    energyPlot.updateEnergyStepLine(stepNo);
     renderTotalPotential();
 }
 
