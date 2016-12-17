@@ -14,6 +14,7 @@ class Visualizer {
         this.moleculeVisualization = null;
         this.potentialVisualization = null;
         this.isPlaying = false;
+        this.stepNo = 0;
         this.addListeners();
         this.animate();
     }
@@ -29,7 +30,7 @@ class Visualizer {
             this.isPlaying ? this.pause() : this.play();
         });
         this.timeline.addEventListener('input', () => {
-            stepNo = parseInt(this.timeline.value);
+            this.stepNo = parseInt(this.timeline.value);
             if (data) this.render();
         });
         document.getElementById('number-sps').addEventListener('change', function() {
@@ -39,7 +40,7 @@ class Visualizer {
     }
 
     writeInfo() {
-        this.display.innerText = 'Step: ' + stepNo.toString();
+        this.display.innerText = 'Step: ' + this.stepNo.toString();
     }
 
     emptyDivs() {
@@ -71,11 +72,11 @@ class Visualizer {
 
     animate() {
         if(this.isPlaying) {
-            stepNo += ticker.tick();
-            if( stepNo >= numFrames ) {
-                stepNo = 0;
+            this.stepNo += ticker.tick();
+            if( this.stepNo >= numFrames ) {
+                this.stepNo = 0;
             }
-            this.timeline.value = stepNo;
+            this.timeline.value = this.stepNo;
             this.render();
         }
         requestAnimationFrame(() => this.animate());
@@ -83,15 +84,15 @@ class Visualizer {
 
     render() {
         this.writeInfo();
-        this.moleculeVisualization.render(data, stepNo);
-        this.velocityHistogramPlot.updateDistribution(data, stepNo);
-        this.energyPlot.updateStepNoIndicator(stepNo);
-        this.potentialVisualization.render(data, stepNo);
+        this.moleculeVisualization.render(data, this.stepNo);
+        this.velocityHistogramPlot.updateDistribution(data, this.stepNo);
+        this.energyPlot.updateStepNoIndicator(this.stepNo);
+        this.potentialVisualization.render(data, this.stepNo);
     }
 
     dataFileLoaded(simData) {
         data = simData;
-        stepNo = 0;
+        this.stepNo = 0;
         numFrames = data.length;
         kin = data.map(step => step['kin']);
         pot = data.map(step => step['pot']);
@@ -107,7 +108,6 @@ class Visualizer {
 }
 
 var inputFile = document.getElementById('input-file');
-var stepNo = 0;
 var data;
 var dimensions = 2;
 var numFrames;
