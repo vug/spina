@@ -17,6 +17,7 @@ class UI {
     addListeners() {
         var button2DExample = document.getElementById('btn-ex-2D');
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
+        var inputSPS = document.getElementById('number-sps');
 
         this.inputFile.addEventListener('change', e => {
             var selectedFile = this.inputFile.files[0];
@@ -33,8 +34,8 @@ class UI {
             this.visualizer.stepNo = parseInt(this.timeline.value);
             if (this.visualizer.simData) this.visualizer.render();
         });
-        document.getElementById('number-sps').addEventListener('change', function() {
-            var sps = parseInt(this.value);
+        inputSPS.addEventListener('change', () => {
+            var sps = parseInt(inputSPS.value);
             this.ticker.setStepsPerSecond(sps);
         });
     }
