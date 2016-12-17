@@ -7,6 +7,7 @@ class Visualizer {
         }
         this.timeline = document.getElementById('time-slider');
         this.buttonPlay = document.getElementById('button-play');
+        this.display = document.getElementById('display');
         this.addListeners();
         requestAnimationFrame(play);
     }
@@ -30,11 +31,15 @@ class Visualizer {
             setStepsPerSecond(sps);
         });
     }
+
+    writeInfo() {
+        this.display.innerText = 'Step: ' + stepNo.toString();
+    }
 }
 
 var vis = new Visualizer();
 
-var display = document.getElementById('display');
+
 var isPlaying = false;
 var stepNo = 0;
 var prevFrameTime = undefined;
@@ -92,15 +97,11 @@ function pause() {
 }
 
 function render() {
-    writeInfo();
+    vis.writeInfo();
     moleculeVisualization.render(data, stepNo);
     velocityHistogramPlot.updateDistribution(data, stepNo);
     energyPlot.updateStepNoIndicator(stepNo);
     potentialVisualization.render(data, stepNo);
-}
-
-function writeInfo() {
-    display.innerText = 'Step: ' + stepNo.toString();
 }
 
 function setStepsPerSecond(sps) {
