@@ -25,7 +25,7 @@ class Visualizer {
 
         button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
         this.buttonPlay.addEventListener('click', function() {
-            isPlaying ? pause() : start();
+            isPlaying ? pause() : play();
         });
         this.timeline.addEventListener('input', () => {
             stepNo = parseInt(this.timeline.value);
@@ -81,7 +81,7 @@ function dataFileLoaded() {
     render();
 }
 
-function start() {
+function play() {
     isPlaying = true;
     vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
     vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
