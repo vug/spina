@@ -1,50 +1,50 @@
-var updateVelocityHistogram;
-var updateVelocityLayout;
-
-function createVelocityHistogram() {
-    var plotData = [
-    {
-        x: [],
-        type: 'histogram',
-        histnorm: 'probability',
-        autobinx: false,
-        xbins: {
-            start: 0,
-            end: 2,
-            size: 0.1
-        }
+class VelocityHistogram {
+    constructor(elemId) {
+        this.elemId = elemId;
+        this.plotData = [
+            {
+                x: [],
+                type: 'histogram',
+                histnorm: 'probability',
+                autobinx: false,
+                xbins: {
+                    start: 0,
+                    end: 2,
+                    size: 0.1
+                }
+            }
+        ];
+        this.layout = {
+            title: 'Velocity distribution',
+            xaxis: {
+                range: [0, 1],
+                title: 'speed'
+            },
+            yaxis: {
+                range: [0, 1],
+                title: 'probability'
+            }
+        };
+        Plotly.newPlot(this.elemId, this.plotData, this.layout, {showLink: false});
     }
-    ];
-    var layout = {
-        title: 'Velocity distribution',
-        xaxis: {
-            range: [0, 1],
-            title: 'speed'
-        },
-        yaxis: {
-            range: [0, 1],
-            title: 'probability'
-        }
-    };
-    Plotly.newPlot('plot-vel-dist', plotData, layout, {showLink: false});
 
-    var calculateMaximumVelocity = function() {
-        var vels = data.map(s => s.vel.map(v => Math.sqrt(v[0] * v[0] + v[1] * v[1])));
+    updateLayout(simData) {
+        var velMax = this.calculateMaximumVelocity(simData);
+        var update = {xaxis: {range: [0, velMax]}};
+        Plotly.relayout('plot-vel-dist', update);
+    }
+
+    updateHistogram(simData) {
+        var vel = simData[stepNo]['vel'];
+        var velMag = vel.map(v => Math.sqrt(v[0] * v[0] + v[1] * v[1]));
+        this.plotData[0].x = velMag;
+        Plotly.redraw('plot-vel-dist');
+    }
+
+    calculateMaximumVelocity(simData) {
+        var vels = simData.map(s => s.vel.map(v => Math.sqrt(v[0] * v[0] + v[1] * v[1])));
         var maxVels = vels.map(s => Math.max.apply(null, s));
         var maxVel = Math.max.apply(null, maxVels);
         return maxVel;
-    };
-
-    updateVelocityLayout = function() {
-        var velMax = calculateMaximumVelocity();
-        var update = {xaxis: {range: [0, velMax]}};
-        Plotly.relayout('plot-vel-dist', update);
-    };
-
-    updateVelocityHistogram = function() {
-        var vel = data[stepNo]['vel'];
-        var velMag = vel.map(v => Math.sqrt(v[0] * v[0] + v[1] * v[1]));
-        plotData[0].x = velMag;
-        Plotly.redraw('plot-vel-dist');
-    };
+    }
 }
