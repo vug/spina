@@ -5,8 +5,25 @@ class Visualizer {
             // TODO: Get this value from simulation results file.
             dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
         }
-        addListeners();
+        this.addListeners();
         requestAnimationFrame(play);
+    }
+
+    addListeners() {
+        inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
+        var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
+        button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
+        buttonPlay.addEventListener('click', function() {
+            isPlaying ? pause() : start();
+        });
+        timeline.addEventListener('input', function() {
+            stepNo = parseInt(timeline.value);
+            if (data) render();
+        });
+        document.getElementById('number-sps').addEventListener('change', function() {
+            var sps = parseInt(this.value);
+            setStepsPerSecond(sps);
+        });
     }
 }
 
@@ -27,22 +44,6 @@ var velocityHistogramPlot;
 var moleculeVisualization;
 var potentialVisualization;
 
-function addListeners() {
-    inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
-    var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
-    button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
-    buttonPlay.addEventListener('click', function() { 
-        isPlaying ? pause() : start(); 
-    });
-    timeline.addEventListener('input', function() { 
-        stepNo = parseInt(timeline.value);
-        if (data) render();
-    });
-    document.getElementById('number-sps').addEventListener('change', function() {
-        var sps = parseInt(this.value);
-        setStepsPerSecond(sps);
-    });    
-}
 
 function dataFileLoaded() {
     stepNo = 0;
