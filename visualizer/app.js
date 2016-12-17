@@ -12,6 +12,7 @@ var dimensions = 2;
 
 var energyPlot;
 var velocityHistogramPlot;
+var moleculeVisualization;
 
 
 function init() {
@@ -23,6 +24,7 @@ function init() {
     addListeners();
     energyPlot = new plotEnergies('plot-energies');
     velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
+    moleculeVisualization = new MoleculesVisualization2D('canvas');
     requestAnimationFrame(play);    
 }
 
@@ -72,7 +74,7 @@ function pause() {
 
 function render() {
     writeInfo();
-    visualizeMolecules();
+    moleculeVisualization.render(data, stepNo);
     velocityHistogramPlot.updateHistogram(data);
     energyPlot.updateEnergyStepLine(stepNo);
     renderTotalPotential();
