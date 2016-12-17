@@ -13,6 +13,7 @@ var dimensions = 2;
 var energyPlot;
 var velocityHistogramPlot;
 var moleculeVisualization;
+var potentialVisualization;
 
 
 function init() {
@@ -52,7 +53,7 @@ function dataFileLoaded() {
     pot = data.map(step => step['pot']);
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
-    createPotentialPlot2D();
+    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
     energyPlot.updateEnergies(kin, pot, ene);
     velocityHistogramPlot.updateLayout(data);
     render();
@@ -77,7 +78,7 @@ function render() {
     moleculeVisualization.render(data, stepNo);
     velocityHistogramPlot.updateHistogram(data);
     energyPlot.updateEnergyStepLine(stepNo);
-    renderTotalPotential();
+    potentialVisualization.render(data, stepNo);
 }
 
 function writeInfo() {
