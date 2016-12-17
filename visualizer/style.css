@@ -4,7 +4,7 @@ body {
 }
 
 .bordered { 
-  border: 1px solid black; 
+  outline: 2px solid lightgray;
 }
 
 #time-slider { 
