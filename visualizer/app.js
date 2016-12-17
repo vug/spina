@@ -26,6 +26,7 @@ function init() {
     energyPlot = new EnergiesLineChart('plot-energies');
     velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
     moleculeVisualization = new MoleculesVisualization2D('canvas');
+    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
     requestAnimationFrame(play);    
 }
 
@@ -53,9 +54,9 @@ function dataFileLoaded() {
     pot = data.map(step => step['pot']);
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
-    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
     energyPlot.updateEnergyData(kin, pot, ene);
     velocityHistogramPlot.updateLayout(data);
+    potentialVisualization.updateData(data);
     render();
 }
 
