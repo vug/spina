@@ -40,6 +40,7 @@ function dataFileLoaded() {
     pot = data.map(step => step['pot']);
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
+    createPotentialPlot2D();
     updateEnergies();
     updateVelocityLayout();
     render();

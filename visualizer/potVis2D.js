@@ -45,5 +45,3 @@ function renderTotalPotential() {
     uniforms.time.value = stepNo;
     renderer.render(scene, camera);
 }
-
-createPotentialPlot2D();
