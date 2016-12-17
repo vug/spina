@@ -39,7 +39,7 @@ function addListeners() {
     });
     timeline.addEventListener('input', function() { 
         stepNo = parseInt(timeline.value);
-        render();
+        if (data) render();
     });
     document.getElementById('number-sps').addEventListener('change', function() {
         var sps = parseInt(this.value);
