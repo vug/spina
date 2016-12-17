@@ -1,6 +1,8 @@
 class Visualizer {
     constructor(ticker) {
         this.ticker = ticker;
+        this.uiCallback = null;
+
         this.dimensions = 2;
         if (typeof document.location.search !== "undefined") {
             // temporary solution to set dimensionality.
@@ -12,17 +14,11 @@ class Visualizer {
         this.velocityHistogramPlot = null;
         this.moleculeVisualization = null;
         this.potentialVisualization = null;
-        this.display = document.getElementById('display');
-        this.timeline = document.getElementById('time-slider');
         this.isPlaying = false;
         this.stepNo = 0;
         this.simData = null;
         this.numSteps = 0;
         this.animate();
-    }
-
-    writeInfo() {
-        this.display.innerText = 'Step: ' + this.stepNo.toString();
     }
 
     createVisualizations() {
@@ -38,14 +34,13 @@ class Visualizer {
             if( this.stepNo >= this.numSteps ) {
                 this.stepNo = 0;
             }
-            this.timeline.value = this.stepNo;
+            if(this.uiCallback) this.uiCallback(this.stepNo);
             this.render();
         }
         requestAnimationFrame(() => this.animate());
     }
 
     render() {
-        this.writeInfo();
         this.moleculeVisualization.render(this.simData, this.stepNo);
         this.velocityHistogramPlot.updateDistribution(this.simData, this.stepNo);
         this.energyPlot.updateStepNoIndicator(this.stepNo);
@@ -73,12 +68,14 @@ class UI {
         this.loader = loader;
         this.ticker = ticker;
 
-        this.timeline = document.getElementById('time-slider');
         this.buttonPlay = document.getElementById('button-play');
         this.inputFile = document.getElementById('input-file');
+        this.timeline = document.getElementById('time-slider');
+        this.display = document.getElementById('display');
         this.divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
 
         this.addListeners();
+        this.visualizer.uiCallback = this.callback.bind(this);
     }
 
     addListeners() {
@@ -131,6 +128,11 @@ class UI {
         this.timeline.max = simData.length - 1;
         this.visualizer.dataFileLoaded(simData);
     }
+
+    callback(stepNo) {
+        this.timeline.value = stepNo;
+        this.display.innerText = 'Step: ' + stepNo.toString();
+    }
 }
 
 class App {
@@ -142,8 +144,4 @@ class App {
     }
 }
 
-app = new App();
-
-
-
-
+var app = new App();
