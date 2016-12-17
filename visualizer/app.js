@@ -16,7 +16,7 @@ class Visualizer {
         this.isPlaying = false;
         this.stepNo = 0;
         this.simData = null;
-        this.numFrames = 0
+        this.numSteps = 0
         this.addListeners();
         this.animate();
     }
@@ -75,7 +75,7 @@ class Visualizer {
     animate() {
         if(this.isPlaying) {
             this.stepNo += ticker.tick();
-            if( this.stepNo >= this.numFrames ) {
+            if( this.stepNo >= this.numSteps ) {
                 this.stepNo = 0;
             }
             this.timeline.value = this.stepNo;
@@ -95,11 +95,11 @@ class Visualizer {
     dataFileLoaded(simData) {
         this.simData = simData;
         this.stepNo = 0;
-        this.numFrames = this.simData.length;
+        this.numSteps = this.simData.length;
         kin = this.simData.map(step => step['kin']);
         pot = this.simData.map(step => step['pot']);
         ene = this.simData.map(step => step['ene']);
-        this.timeline.max = this.numFrames - 1;
+        this.timeline.max = this.numSteps - 1;
         this.emptyDivs();
         this.createVisualizations();
         this.energyPlot.updateEnergyData(kin, pot, ene);
