@@ -23,7 +23,7 @@ function init() {
         dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
     }
     addListeners();
-    energyPlot = new plotEnergies('plot-energies');
+    energyPlot = new EnergiesLineChart('plot-energies');
     velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
     moleculeVisualization = new MoleculesVisualization2D('canvas');
     requestAnimationFrame(play);    

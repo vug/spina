@@ -1,4 +1,4 @@
-class plotEnergies {
+class EnergiesLineChart {
     constructor(elemId) {
         this.elemId = elemId;
         this.kinetic = {
