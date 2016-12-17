@@ -8,6 +8,7 @@ class Visualizer {
         this.timeline = document.getElementById('time-slider');
         this.buttonPlay = document.getElementById('button-play');
         this.display = document.getElementById('display');
+        this.divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
         this.addListeners();
         requestAnimationFrame(play);
     }
@@ -35,6 +36,12 @@ class Visualizer {
     writeInfo() {
         this.display.innerText = 'Step: ' + stepNo.toString();
     }
+
+    emptyDivs() {
+        for (var divId of this.divIds) {
+            document.getElementById(divId).innerHTML = '';
+        }
+    }
 }
 
 var vis = new Visualizer();
@@ -61,18 +68,12 @@ function dataFileLoaded() {
     pot = data.map(step => step['pot']);
     ene = data.map(step => step['ene']);
     vis.timeline.max = numFrames - 1;
-    emptyDivs();
+    vis.emptyDivs();
     createVisualizations();
     energyPlot.updateEnergyData(kin, pot, ene);
     velocityHistogramPlot.updateLayout(data);
     potentialVisualization.updateData(data);
     render();
-}
-
-function emptyDivs() {
-    for (var divId of ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist']) {
-        document.getElementById(divId).innerHTML = '';
-    }
 }
 
 function createVisualizations() {
