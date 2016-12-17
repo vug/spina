@@ -18,6 +18,7 @@ class Visualizer {
         this.stepNo = 0;
         this.simData = null;
         this.numSteps = 0;
+        this.inputFile = document.getElementById('input-file');
         this.addListeners();
         this.animate();
     }
@@ -26,7 +27,10 @@ class Visualizer {
         var button2DExample = document.getElementById('btn-ex-2D');
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
 
-        inputFile.addEventListener('change', e => loader.loadFile(this.dataFileLoaded.bind(this)), false);
+        this.inputFile.addEventListener('change', e => {
+            var selectedFile = this.inputFile.files[0];
+            loader.loadFile(selectedFile, this.dataFileLoaded.bind(this));
+        }, false);
 
         button2DExample.addEventListener('click', e => loader.requestSimulationData(example2DUrl, this.dataFileLoaded.bind(this)));
         this.buttonPlay.addEventListener('click', () => {
@@ -110,7 +114,6 @@ class Visualizer {
     }
 }
 
-var inputFile = document.getElementById('input-file');
 var vis = new Visualizer();
 var ticker = new Ticker();
 var loader = new SimulationResultLoader();

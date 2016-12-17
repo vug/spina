@@ -1,14 +1,13 @@
 class SimulationResultLoader {
-    loadFile(callback) {
-        var selectedFile = inputFile.files[0];
+    loadFile(file, callback) {
         var reader = new FileReader();
         reader.onload = e => {
             var content = e.target.result;
             var data = JSON.parse(content);
             callback(data);
         };
-        console.log('loading:', selectedFile.name, selectedFile.size, selectedFile.type);
-        reader.readAsText(selectedFile);
+        console.log('loading:', file.name, file.size, file.type);
+        reader.readAsText(file);
     }
 
     requestSimulationData(url, callback) {
