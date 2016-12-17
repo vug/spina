@@ -25,7 +25,7 @@ class UI {
         }, false);
 
         this.button2DExample.addEventListener('click', e => {
-            this.loader.requestSimulationData(example2DUrl, this.visualizer.dataFileLoaded.bind(this.visualizer))
+            this.loader.requestSimulationData(example2DUrl, this.simulationResultLoaded.bind(this));
         });
         this.buttonPlay.addEventListener('click', () => {
             this.visualizer.isPlaying ? this.pause() : this.play();
