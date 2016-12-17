@@ -5,6 +5,8 @@ class UI {
         this.ticker = ticker;
 
         this.buttonPlay = document.getElementById('button-play');
+        this.button2DExample = document.getElementById('btn-ex-2D');
+        this.inputSPS = document.getElementById('number-sps');
         this.inputFile = document.getElementById('input-file');
         this.timeline = document.getElementById('time-slider');
         this.display = document.getElementById('display');
@@ -15,16 +17,14 @@ class UI {
     }
 
     addListeners() {
-        var button2DExample = document.getElementById('btn-ex-2D');
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
-        var inputSPS = document.getElementById('number-sps');
 
         this.inputFile.addEventListener('change', e => {
             var selectedFile = this.inputFile.files[0];
             this.loader.loadFile(selectedFile, this.simulationResultLoaded.bind(this));
         }, false);
 
-        button2DExample.addEventListener('click', e => {
+        this.button2DExample.addEventListener('click', e => {
             this.loader.requestSimulationData(example2DUrl, this.visualizer.dataFileLoaded.bind(this.visualizer))
         });
         this.buttonPlay.addEventListener('click', () => {
@@ -34,8 +34,8 @@ class UI {
             this.visualizer.stepNo = parseInt(this.timeline.value);
             if (this.visualizer.simData) this.visualizer.render();
         });
-        inputSPS.addEventListener('change', () => {
-            var sps = parseInt(inputSPS.value);
+        this.inputSPS.addEventListener('change', () => {
+            var sps = parseInt(this.inputSPS.value);
             this.ticker.setStepsPerSecond(sps);
         });
     }
