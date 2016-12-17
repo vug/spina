@@ -2,7 +2,7 @@ var plotTotalPotential;
 var camera, scene, renderer;
 var uniforms;
 
-function init() {
+function createPotentialPlot2D() {
     plotTotalPotential = document.getElementById('plot-total-potential');
 
     camera = new THREE.Camera();
@@ -46,4 +46,4 @@ function renderTotalPotential() {
     renderer.render(scene, camera);
 }
 
-init();
+createPotentialPlot2D();
