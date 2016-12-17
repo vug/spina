@@ -6,6 +6,7 @@ class TotalPotentialVisualization2D {
         this.renderer = new THREE.WebGLRenderer();
         this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
+        this.numParticles = null;
 
         var elem = document.getElementById(elemId);
         elem.appendChild(this.renderer.domElement);
@@ -18,15 +19,15 @@ class TotalPotentialVisualization2D {
     }
 
     updateData(simData) {
-        var numParticles = simData[0]['pos'].length; // TODO: temporary solution. Value will directly come from simData
-        var particlePositions = new Array(numParticles).fill(0).map((x, i) => new THREE.Vector2());
+        this.numParticles = simData[0]['pos'].length; // TODO: temporary solution. Value will directly come from simData
+        var particlePositions = new Array(this.numParticles).fill(0).map((x, i) => new THREE.Vector2());
         // TODO: format fragmentShader and insert numParticles into it dynamically
 
         this.uniforms = {
             time: {value: 1.0},
             resolution: {value: new THREE.Vector2(this.size, this.size)},
             pos: {type: 'v2v', value: particlePositions},
-            selectedParticleIdx: {value: Math.floor(numParticles / 2)},
+            selectedParticleIdx: {value: Math.floor(this.numParticles / 2)},
             devicePixelRatio: {value: window.devicePixelRatio}
         };
         var geometry = new THREE.PlaneBufferGeometry(2, 2);
@@ -43,7 +44,7 @@ class TotalPotentialVisualization2D {
 
     render(simData, stepNo) {
         var pos = simData[stepNo]['pos'];
-        for (var i = 0; i < 81; i++) {
+        for (var i = 0; i < this.numParticles; i++) {
             var p = this.uniforms.pos.value[i];
             p.x = pos[i][0];
             p.y = pos[i][1];
