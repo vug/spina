@@ -13,6 +13,7 @@ class Visualizer {
         this.velocityHistogramPlot = null;
         this.moleculeVisualization = null;
         this.potentialVisualization = null;
+        this.isPlaying = false;
         this.addListeners();
         requestAnimationFrame(animate);
     }
@@ -24,8 +25,8 @@ class Visualizer {
         inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
 
         button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
-        this.buttonPlay.addEventListener('click', function() {
-            isPlaying ? pause() : play();
+        this.buttonPlay.addEventListener('click', () => {
+            this.isPlaying ? this.pause() : this.play();
         });
         this.timeline.addEventListener('input', () => {
             stepNo = parseInt(this.timeline.value);
@@ -53,12 +54,24 @@ class Visualizer {
         this.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', 300);
         this.potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300);
     }
+
+    play() {
+        this.isPlaying = true;
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
+    }
+
+    pause() {
+        this.isPlaying = false;
+        prevFrameTime = undefined;
+        tickerTime = 0.0;
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
+    }
 }
 
 var vis = new Visualizer();
 
-
-var isPlaying = false;
 var stepNo = 0;
 var prevFrameTime = undefined;
 var tickerTime = 0.0;
@@ -81,20 +94,6 @@ function dataFileLoaded() {
     render();
 }
 
-function play() {
-    isPlaying = true;
-    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
-}
-
-function pause() {
-    isPlaying = false;
-    prevFrameTime = undefined;
-    tickerTime = 0.0;
-    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-    vis.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
-}
-
 function render() {
     vis.writeInfo();
     vis.moleculeVisualization.render(data, stepNo);
@@ -110,7 +109,7 @@ function setStepsPerSecond(sps) {
 }
 
 function animate() {
-    if(isPlaying) {
+    if(vis.isPlaying) {
         tick();
         if( stepNo >= numFrames ) {
             stepNo = 0;
