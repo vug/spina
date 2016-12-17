@@ -23,11 +23,7 @@ function init() {
         dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
     }
     addListeners();
-    energyPlot = new EnergiesLineChart('plot-energies');
-    velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
-    moleculeVisualization = new MoleculesVisualization2D('plot-molecules');
-    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
-    requestAnimationFrame(play);    
+    requestAnimationFrame(play);
 }
 
 function addListeners() {
@@ -55,6 +51,7 @@ function dataFileLoaded() {
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
     emptyDivs();
+    createVisualizations();
     energyPlot.updateEnergyData(kin, pot, ene);
     velocityHistogramPlot.updateLayout(data);
     potentialVisualization.updateData(data);
