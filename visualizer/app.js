@@ -14,7 +14,7 @@ class Visualizer {
         this.moleculeVisualization = null;
         this.potentialVisualization = null;
         this.addListeners();
-        requestAnimationFrame(play);
+        requestAnimationFrame(animate);
     }
 
     addListeners() {
@@ -109,7 +109,7 @@ function setStepsPerSecond(sps) {
     tickerTime = 0.0;
 }
 
-function play() {
+function animate() {
     if(isPlaying) {
         tick();
         if( stepNo >= numFrames ) {
@@ -118,7 +118,7 @@ function play() {
         vis.timeline.value = stepNo;
         render();
     }
-    requestAnimationFrame(play)
+    requestAnimationFrame(animate)
 }
 
 function tick() {
