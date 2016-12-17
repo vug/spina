@@ -96,9 +96,9 @@ class Visualizer {
         this.simData = simData;
         this.stepNo = 0;
         this.numSteps = this.simData.length;
-        kin = this.simData.map(step => step['kin']);
-        pot = this.simData.map(step => step['pot']);
-        ene = this.simData.map(step => step['ene']);
+        var kin = this.simData.map(step => step['kin']);
+        var pot = this.simData.map(step => step['pot']);
+        var ene = this.simData.map(step => step['ene']);
         this.timeline.max = this.numSteps - 1;
         this.emptyDivs();
         this.createVisualizations();
@@ -111,7 +111,6 @@ class Visualizer {
 
 var inputFile = document.getElementById('input-file');
 var dimensions = 2;
-var kin, pot, ene;
 
 var vis = new Visualizer();
 var ticker = new Ticker();
