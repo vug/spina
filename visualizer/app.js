@@ -67,8 +67,8 @@ function emptyDivs() {
 function createVisualizations() {
     energyPlot = new EnergiesLineChart('plot-energies');
     velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
-    moleculeVisualization = new MoleculesVisualization2D('plot-molecules');
-    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
+    moleculeVisualization = new MoleculesVisualization2D('plot-molecules', 300);
+    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300, vertexShader, fragmentShader);
 }
 
 function start() {
