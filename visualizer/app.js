@@ -1,3 +1,15 @@
+class Visualizer {
+    constructor() {
+        if (typeof document.location.search !== "undefined") {
+            // temporary solution to set dimensionality.
+            // TODO: Get this value from simulation results file.
+            dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
+        }
+        addListeners();
+        requestAnimationFrame(play);
+    }
+}
+
 var timeline = document.getElementById('time-slider');
 var buttonPlay = document.getElementById('button-play');
 var button2DExample = document.getElementById('btn-ex-2D');
@@ -14,17 +26,6 @@ var energyPlot;
 var velocityHistogramPlot;
 var moleculeVisualization;
 var potentialVisualization;
-
-
-function init() {
-    if (typeof document.location.search !== "undefined") {
-        // temporary solution to set dimensionality.
-        // TODO: Get this value from simulation results file.
-        dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
-    }
-    addListeners();
-    requestAnimationFrame(play);
-}
 
 function addListeners() {
     inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
@@ -127,4 +128,4 @@ function tick() {
     prevFrameTime = now;
 }
 
-init();
+var vis = new Visualizer();
