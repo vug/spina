@@ -1,59 +1,28 @@
 class Visualizer {
-    constructor() {
+    constructor(ticker) {
+        this.ticker = ticker;
         this.dimensions = 2;
         if (typeof document.location.search !== "undefined") {
             // temporary solution to set dimensionality.
             // TODO: Get this value from simulation results file.
             this.dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
         }
-        this.timeline = document.getElementById('time-slider');
-        this.buttonPlay = document.getElementById('button-play');
-        this.display = document.getElementById('display');
-        this.divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
+
         this.energyPlot = null;
         this.velocityHistogramPlot = null;
         this.moleculeVisualization = null;
         this.potentialVisualization = null;
+        this.display = document.getElementById('display');
+        this.timeline = document.getElementById('time-slider');
         this.isPlaying = false;
         this.stepNo = 0;
         this.simData = null;
         this.numSteps = 0;
-        this.inputFile = document.getElementById('input-file');
-        this.addListeners();
         this.animate();
-    }
-
-    addListeners() {
-        var button2DExample = document.getElementById('btn-ex-2D');
-        var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
-
-        this.inputFile.addEventListener('change', e => {
-            var selectedFile = this.inputFile.files[0];
-            loader.loadFile(selectedFile, this.dataFileLoaded.bind(this));
-        }, false);
-
-        button2DExample.addEventListener('click', e => loader.requestSimulationData(example2DUrl, this.dataFileLoaded.bind(this)));
-        this.buttonPlay.addEventListener('click', () => {
-            this.isPlaying ? this.pause() : this.play();
-        });
-        this.timeline.addEventListener('input', () => {
-            this.stepNo = parseInt(this.timeline.value);
-            if (this.simData) this.render();
-        });
-        document.getElementById('number-sps').addEventListener('change', function() {
-            var sps = parseInt(this.value);
-            ticker.setStepsPerSecond(sps);
-        });
     }
 
     writeInfo() {
         this.display.innerText = 'Step: ' + this.stepNo.toString();
-    }
-
-    emptyDivs() {
-        for (var divId of this.divIds) {
-            document.getElementById(divId).innerHTML = '';
-        }
     }
 
     createVisualizations() {
@@ -63,23 +32,9 @@ class Visualizer {
         this.potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300);
     }
 
-    play() {
-        this.isPlaying = true;
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
-    }
-
-    pause() {
-        this.isPlaying = false;
-        ticker.prevFrameTime = undefined;
-        ticker.tickerTime = 0.0;
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
-    }
-
     animate() {
         if(this.isPlaying) {
-            this.stepNo += ticker.tick();
+            this.stepNo += this.ticker.tick();
             if( this.stepNo >= this.numSteps ) {
                 this.stepNo = 0;
             }
@@ -104,8 +59,6 @@ class Visualizer {
         var kin = this.simData.map(step => step['kin']);
         var pot = this.simData.map(step => step['pot']);
         var ene = this.simData.map(step => step['ene']);
-        this.timeline.max = this.numSteps - 1;
-        this.emptyDivs();
         this.createVisualizations();
         this.energyPlot.updateEnergyData(kin, pot, ene);
         this.velocityHistogramPlot.updateLayout(this.simData);
@@ -114,6 +67,83 @@ class Visualizer {
     }
 }
 
-var vis = new Visualizer();
-var ticker = new Ticker();
-var loader = new SimulationResultLoader();
+class UI {
+    constructor(visualizer, loader, ticker) {
+        this.visualizer = visualizer;
+        this.loader = loader;
+        this.ticker = ticker;
+
+        this.timeline = document.getElementById('time-slider');
+        this.buttonPlay = document.getElementById('button-play');
+        this.inputFile = document.getElementById('input-file');
+        this.divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
+
+        this.addListeners();
+    }
+
+    addListeners() {
+        var button2DExample = document.getElementById('btn-ex-2D');
+        var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
+
+        this.inputFile.addEventListener('change', e => {
+            var selectedFile = this.inputFile.files[0];
+            this.loader.loadFile(selectedFile, this.simulationResultLoaded.bind(this));
+        }, false);
+
+        button2DExample.addEventListener('click', e => {
+            this.loader.requestSimulationData(example2DUrl, this.visualizer.dataFileLoaded.bind(this.visualizer))
+        });
+        this.buttonPlay.addEventListener('click', () => {
+            this.visualizer.isPlaying ? this.pause() : this.play();
+        });
+        this.timeline.addEventListener('input', () => {
+            this.visualizer.stepNo = parseInt(this.timeline.value);
+            if (this.visualizer.simData) this.visualizer.render();
+        });
+        document.getElementById('number-sps').addEventListener('change', function() {
+            var sps = parseInt(this.value);
+            this.ticker.setStepsPerSecond(sps);
+        });
+    }
+
+    play() {
+        this.visualizer.isPlaying = true;
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
+    }
+
+    pause() {
+        this.visualizer.isPlaying = false;
+        this.ticker.prevFrameTime = undefined;
+        this.ticker.tickerTime = 0.0;
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
+        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
+    }
+
+    emptyDivs() {
+        for (var divId of this.divIds) {
+            document.getElementById(divId).innerHTML = '';
+        }
+    }
+
+    simulationResultLoaded(simData) {
+        this.emptyDivs();
+        this.timeline.max = simData.length - 1;
+        this.visualizer.dataFileLoaded(simData);
+    }
+}
+
+class App {
+    constructor() {
+        this.loader = new SimulationResultLoader();
+        this.ticker = new Ticker();
+        this.visualizer = new Visualizer(this.ticker);
+        this.ui = new UI(this.visualizer, this.loader, this.ticker);
+    }
+}
+
+app = new App();
+
+
+
+
