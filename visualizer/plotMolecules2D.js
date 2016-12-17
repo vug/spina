@@ -1,10 +1,10 @@
 class MoleculesVisualization2D {
-    constructor(elemId) {
+    constructor(elemId, size) {
         this.elem = document.getElementById(elemId);
 
         this.canvas = document.createElement('canvas');
-        this.canvas.setAttribute('width', (400).toString());
-        this.canvas.setAttribute('height', (400).toString());
+        this.canvas.setAttribute('width', (size).toString());
+        this.canvas.setAttribute('height', (size).toString());
         this.ctx = this.canvas.getContext('2d');
 
         this.elem.appendChild(this.canvas);

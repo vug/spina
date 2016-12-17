@@ -1,5 +1,6 @@
 class TotalPotentialVisualization2D {
-    constructor(elemId, vertexShader, fragmentShader) {
+    constructor(elemId, size, vertexShader, fragmentShader) {
+        this.size = size;
         this.scene = new THREE.Scene();
         this.camera = new THREE.Camera();
         this.renderer = new THREE.WebGLRenderer();
@@ -12,7 +13,7 @@ class TotalPotentialVisualization2D {
         this.camera.position.z = 1;
 
         this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(400, 400);
+        this.renderer.setSize(this.size, this.size);
         this.renderer.render(this.scene, this.camera);
     }
 
@@ -23,7 +24,7 @@ class TotalPotentialVisualization2D {
 
         this.uniforms = {
             time: {value: 1.0},
-            resolution: {value: new THREE.Vector2(400, 400)},
+            resolution: {value: new THREE.Vector2(this.size, this.size)},
             pos: {type: 'v2v', value: particlePositions},
             selectedParticleIdx: {value: Math.floor(numParticles / 2)},
             devicePixelRatio: {value: window.devicePixelRatio}
