@@ -30,7 +30,7 @@ class Visualizer {
         });
         this.timeline.addEventListener('input', () => {
             stepNo = parseInt(this.timeline.value);
-            if (data) render();
+            if (data) this.render();
         });
         document.getElementById('number-sps').addEventListener('change', function() {
             var sps = parseInt(this.value);
@@ -76,9 +76,17 @@ class Visualizer {
                 stepNo = 0;
             }
             this.timeline.value = stepNo;
-            render();
+            this.render();
         }
         requestAnimationFrame(() => this.animate());
+    }
+
+    render() {
+        this.writeInfo();
+        this.moleculeVisualization.render(data, stepNo);
+        this.velocityHistogramPlot.updateDistribution(data, stepNo);
+        this.energyPlot.updateStepNoIndicator(stepNo);
+        this.potentialVisualization.render(data, stepNo);
     }
 }
 
@@ -103,15 +111,7 @@ function dataFileLoaded() {
     vis.energyPlot.updateEnergyData(kin, pot, ene);
     vis.velocityHistogramPlot.updateLayout(data);
     vis.potentialVisualization.updateData(data);
-    render();
-}
-
-function render() {
-    vis.writeInfo();
-    vis.moleculeVisualization.render(data, stepNo);
-    vis.velocityHistogramPlot.updateDistribution(data, stepNo);
-    vis.energyPlot.updateStepNoIndicator(stepNo);
-    vis.potentialVisualization.render(data, stepNo);
+    vis.render();
 }
 
 function setStepsPerSecond(sps) {
