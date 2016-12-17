@@ -9,6 +9,10 @@ class Visualizer {
         this.buttonPlay = document.getElementById('button-play');
         this.display = document.getElementById('display');
         this.divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
+        this.energyPlot = null;
+        this.velocityHistogramPlot = null;
+        this.moleculeVisualization = null;
+        this.potentialVisualization = null;
         this.addListeners();
         requestAnimationFrame(play);
     }
@@ -42,6 +46,13 @@ class Visualizer {
             document.getElementById(divId).innerHTML = '';
         }
     }
+
+    createVisualizations() {
+        this.energyPlot = new EnergiesLineChart('plot-energies');
+        this.velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
+        this.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', 300);
+        this.potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300);
+    }
 }
 
 var vis = new Visualizer();
@@ -55,12 +66,6 @@ var stepsPerSecond = 30;
 var stepDuration = 1000 / stepsPerSecond;
 var dimensions = 2;
 
-var energyPlot;
-var velocityHistogramPlot;
-var moleculeVisualization;
-var potentialVisualization;
-
-
 function dataFileLoaded() {
     stepNo = 0;
     numFrames = data.length;
@@ -69,18 +74,11 @@ function dataFileLoaded() {
     ene = data.map(step => step['ene']);
     vis.timeline.max = numFrames - 1;
     vis.emptyDivs();
-    createVisualizations();
-    energyPlot.updateEnergyData(kin, pot, ene);
-    velocityHistogramPlot.updateLayout(data);
-    potentialVisualization.updateData(data);
+    vis.createVisualizations();
+    vis.energyPlot.updateEnergyData(kin, pot, ene);
+    vis.velocityHistogramPlot.updateLayout(data);
+    vis.potentialVisualization.updateData(data);
     render();
-}
-
-function createVisualizations() {
-    energyPlot = new EnergiesLineChart('plot-energies');
-    velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
-    moleculeVisualization = new MoleculesVisualization2D('plot-molecules', 300);
-    potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300);
 }
 
 function start() {
@@ -99,10 +97,10 @@ function pause() {
 
 function render() {
     vis.writeInfo();
-    moleculeVisualization.render(data, stepNo);
-    velocityHistogramPlot.updateDistribution(data, stepNo);
-    energyPlot.updateStepNoIndicator(stepNo);
-    potentialVisualization.render(data, stepNo);
+    vis.moleculeVisualization.render(data, stepNo);
+    vis.velocityHistogramPlot.updateDistribution(data, stepNo);
+    vis.energyPlot.updateStepNoIndicator(stepNo);
+    vis.potentialVisualization.render(data, stepNo);
 }
 
 function setStepsPerSecond(sps) {
