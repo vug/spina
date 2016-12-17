@@ -15,7 +15,7 @@ class Visualizer {
         this.potentialVisualization = null;
         this.isPlaying = false;
         this.addListeners();
-        requestAnimationFrame(animate);
+        this.animate();
     }
 
     addListeners() {
@@ -68,6 +68,18 @@ class Visualizer {
         this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
         this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
     }
+
+    animate() {
+        if(this.isPlaying) {
+            tick();
+            if( stepNo >= numFrames ) {
+                stepNo = 0;
+            }
+            this.timeline.value = stepNo;
+            render();
+        }
+        requestAnimationFrame(() => this.animate());
+    }
 }
 
 var vis = new Visualizer();
@@ -106,18 +118,6 @@ function setStepsPerSecond(sps) {
     stepsPerSecond = sps;
     stepDuration = 1000 / sps;
     tickerTime = 0.0;
-}
-
-function animate() {
-    if(vis.isPlaying) {
-        tick();
-        if( stepNo >= numFrames ) {
-            stepNo = 0;
-        }       
-        vis.timeline.value = stepNo;
-        render();
-    }
-    requestAnimationFrame(animate)
 }
 
 function tick() {
