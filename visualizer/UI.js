@@ -63,6 +63,7 @@ class UI {
     simulationResultLoaded(simData) {
         this.emptyDivs();
         this.timeline.max = simData.length - 1;
+        this.timeline.value = 0;
         this.visualizer.dataFileLoaded(simData);
     }
 
