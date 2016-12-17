@@ -8,8 +8,14 @@ var prevFrameTime = undefined;
 var tickerTime = 0.0;
 var stepsPerSecond = 30;
 var stepDuration = 1000 / stepsPerSecond;
+var dimensions = 2;
 
 function init() {
+    if (typeof document.location.search !== "undefined") {
+        // temporary solution to set dimensionality.
+        // TODO: Get this value from simulation results file.
+        dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
+    }
     addListeners();
     createVelocityHistogram();
     createEnergyPlot();    
