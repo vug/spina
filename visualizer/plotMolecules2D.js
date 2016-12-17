@@ -1,15 +1,20 @@
 class MoleculesVisualization2D {
-    constructor(canvasId) {
-        // TODO: right now elem is canvas. Make it div and create canvas here.
-        this.canvas = document.getElementById(canvasId);
+    constructor(elemId) {
+        this.elem = document.getElementById(elemId);
+
+        this.canvas = document.createElement('canvas');
+        this.canvas.setAttribute('width', (400).toString());
+        this.canvas.setAttribute('height', (400).toString());
         this.ctx = this.canvas.getContext('2d');
+
+        this.elem.appendChild(this.canvas);
     }
 
     render(simData, stepNo) {
         var ctx = this.ctx;
-        var scale = canvas.width / 10.;
+        var scale = this.canvas.width / 10.;
         var radius = scale / 8.0;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         var pos = simData[stepNo]['pos'];
         var vel = simData[stepNo]['vel'];
@@ -25,7 +30,7 @@ class MoleculesVisualization2D {
             ctx.fillStyle = rgb;
 
             var screenX = p[0] * scale;
-            var screenY = canvas.height - p[1] * scale;
+            var screenY = this.canvas.height - p[1] * scale;
             ctx.beginPath();
             ctx.arc(screenX, screenY, radius, 0, Math.PI * 2.0);
             ctx.fill();

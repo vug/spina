@@ -25,7 +25,7 @@ function init() {
     addListeners();
     energyPlot = new EnergiesLineChart('plot-energies');
     velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
-    moleculeVisualization = new MoleculesVisualization2D('canvas');
+    moleculeVisualization = new MoleculesVisualization2D('plot-molecules');
     potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
     requestAnimationFrame(play);    
 }
