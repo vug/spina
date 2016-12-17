@@ -22,9 +22,9 @@ class Visualizer {
         var button2DExample = document.getElementById('btn-ex-2D');
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
 
-        inputFile.addEventListener('change', e => loadFile(this.dataFileLoaded.bind(this)), false);
+        inputFile.addEventListener('change', e => loader.loadFile(this.dataFileLoaded.bind(this)), false);
 
-        button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, this.dataFileLoaded.bind(this)));
+        button2DExample.addEventListener('click', e => loader.requestSimulationData(example2DUrl, this.dataFileLoaded.bind(this)));
         this.buttonPlay.addEventListener('click', () => {
             this.isPlaying ? this.pause() : this.play();
         });
@@ -135,9 +135,15 @@ class Ticker {
     }
 }
 
-var vis = new Visualizer();
-var ticker = new Ticker();
-
+var inputFile = document.getElementById('input-file');
 var stepNo = 0;
 var data;
 var dimensions = 2;
+var numFrames;
+var kin, pot, ene;
+
+var vis = new Visualizer();
+var ticker = new Ticker();
+var loader = new SimulationResultLoader();
+
+
