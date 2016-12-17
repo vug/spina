@@ -34,7 +34,7 @@ class VelocityHistogram {
         Plotly.relayout('plot-vel-dist', update);
     }
 
-    updateHistogram(simData) {
+    updateDistribution(simData, stepNo) {
         var vel = simData[stepNo]['vel'];
         var velMag = vel.map(v => Math.sqrt(v[0] * v[0] + v[1] * v[1]));
         this.plotData[0].x = velMag;

@@ -76,7 +76,7 @@ function pause() {
 function render() {
     writeInfo();
     moleculeVisualization.render(data, stepNo);
-    velocityHistogramPlot.updateHistogram(data);
+    velocityHistogramPlot.updateDistribution(data, stepNo);
     energyPlot.updateStepNoIndicator(stepNo);
     potentialVisualization.render(data, stepNo);
 }
