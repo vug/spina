@@ -34,7 +34,7 @@ class Visualizer {
         });
         document.getElementById('number-sps').addEventListener('change', function() {
             var sps = parseInt(this.value);
-            setStepsPerSecond(sps);
+            ticker.setStepsPerSecond(sps);
         });
     }
 
@@ -63,15 +63,15 @@ class Visualizer {
 
     pause() {
         this.isPlaying = false;
-        prevFrameTime = undefined;
-        tickerTime = 0.0;
+        ticker.prevFrameTime = undefined;
+        ticker.tickerTime = 0.0;
         this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
         this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
     }
 
     animate() {
         if(this.isPlaying) {
-            tick();
+            stepNo += ticker.tick();
             if( stepNo >= numFrames ) {
                 stepNo = 0;
             }
@@ -90,13 +90,39 @@ class Visualizer {
     }
 }
 
+class Ticker {
+    constructor() {
+        this.stepsPerSecond = 30;
+        this.stepDuration = 1000 / this.stepsPerSecond;
+        this.prevFrameTime = undefined;
+        this.tickerTime = 0.0;
+    }
+
+    tick() {
+        var now = performance.now();
+        var dt = now - (this.prevFrameTime || now);  // in milliseconds
+        var deltaStepNo = 0;
+        if (this.tickerTime >= 1000 / this.stepsPerSecond) {
+            var quotient = this.tickerTime / this.stepDuration;
+            deltaStepNo = Math.floor(quotient);
+            this.tickerTime %= this.stepDuration;
+        }
+        this.tickerTime += dt;
+        this.prevFrameTime = now;
+        return deltaStepNo;
+    }
+
+    setStepsPerSecond(sps) {
+        this.stepsPerSecond = sps;
+        this.stepDuration = 1000 / sps;
+        this.tickerTime = 0.0;
+    }
+}
+
 var vis = new Visualizer();
+var ticker = new Ticker();
 
 var stepNo = 0;
-var prevFrameTime = undefined;
-var tickerTime = 0.0;
-var stepsPerSecond = 30;
-var stepDuration = 1000 / stepsPerSecond;
 var dimensions = 2;
 
 function dataFileLoaded() {
@@ -112,22 +138,4 @@ function dataFileLoaded() {
     vis.velocityHistogramPlot.updateLayout(data);
     vis.potentialVisualization.updateData(data);
     vis.render();
-}
-
-function setStepsPerSecond(sps) {
-    stepsPerSecond = sps;
-    stepDuration = 1000 / sps;
-    tickerTime = 0.0;
-}
-
-function tick() {
-    var now = performance.now();
-    var dt = now - (prevFrameTime || now);  // in milliseconds
-    if (tickerTime >= 1000 / stepsPerSecond) {
-        var quotient = tickerTime / stepDuration;
-        stepNo += Math.floor(quotient);
-        tickerTime %= stepDuration;
-    }
-    tickerTime += dt;
-    prevFrameTime = now;
 }
