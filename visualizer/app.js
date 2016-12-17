@@ -54,7 +54,7 @@ function dataFileLoaded() {
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
     potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', vertexShader, fragmentShader);
-    energyPlot.updateEnergies(kin, pot, ene);
+    energyPlot.updateEnergyData(kin, pot, ene);
     velocityHistogramPlot.updateLayout(data);
     render();
 }
@@ -77,7 +77,7 @@ function render() {
     writeInfo();
     moleculeVisualization.render(data, stepNo);
     velocityHistogramPlot.updateHistogram(data);
-    energyPlot.updateEnergyStepLine(stepNo);
+    energyPlot.updateStepNoIndicator(stepNo);
     potentialVisualization.render(data, stepNo);
 }
 

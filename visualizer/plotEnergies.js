@@ -35,7 +35,7 @@ class EnergiesLineChart {
         Plotly.newPlot(elemId, this.plotData, this.layout, {showLink: false});
     }
 
-    updateEnergies(kin, pot, ene) {
+    updateEnergyData(kin, pot, ene) {
             this.kinetic.y = kin;
             this.potential.y = pot;
             this.total.y = ene;
@@ -45,7 +45,7 @@ class EnergiesLineChart {
             Plotly.redraw(this.elemId);
     }
 
-    updateEnergyStepLine(stepNo) {
+    updateStepNoIndicator(stepNo) {
         this.step.x = [stepNo, stepNo];
         Plotly.redraw(this.elemId);
     };
