@@ -1,15 +1,14 @@
 var inputFile = document.getElementById('input-file');
 var numFrames;
 var kin, pot, ene;
-var data;
 
 function loadFile(callback) {
     var selectedFile = inputFile.files[0];
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = e => {
         var content = e.target.result;
-        data = JSON.parse(content);
-        callback();
+        var data = JSON.parse(content);
+        callback(data);
     };
     console.log('loading:', selectedFile.name, selectedFile.size, selectedFile.type);
     reader.readAsText(selectedFile);    
@@ -17,9 +16,8 @@ function loadFile(callback) {
 
 function requestSimulationData(url, callback) {
     console.log('ajax request sent.');
-    $.getJSON(url, function(json) {
+    $.getJSON(url, function(jsonData) {
         console.log('ajax response returned.');
-        data = json;
-        callback();
+        callback(jsonData);
     });
 }

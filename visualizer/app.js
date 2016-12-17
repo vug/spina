@@ -22,9 +22,9 @@ class Visualizer {
         var button2DExample = document.getElementById('btn-ex-2D');
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
 
-        inputFile.addEventListener('change', e => loadFile(dataFileLoaded), false);
+        inputFile.addEventListener('change', e => loadFile(this.dataFileLoaded.bind(this)), false);
 
-        button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, dataFileLoaded));
+        button2DExample.addEventListener('click', e => requestSimulationData(example2DUrl, this.dataFileLoaded.bind(this)));
         this.buttonPlay.addEventListener('click', () => {
             this.isPlaying ? this.pause() : this.play();
         });
@@ -88,6 +88,22 @@ class Visualizer {
         this.energyPlot.updateStepNoIndicator(stepNo);
         this.potentialVisualization.render(data, stepNo);
     }
+
+    dataFileLoaded(simData) {
+        data = simData;
+        stepNo = 0;
+        numFrames = data.length;
+        kin = data.map(step => step['kin']);
+        pot = data.map(step => step['pot']);
+        ene = data.map(step => step['ene']);
+        this.timeline.max = numFrames - 1;
+        this.emptyDivs();
+        this.createVisualizations();
+        this.energyPlot.updateEnergyData(kin, pot, ene);
+        this.velocityHistogramPlot.updateLayout(data);
+        this.potentialVisualization.updateData(data);
+        this.render();
+    }
 }
 
 class Ticker {
@@ -123,19 +139,5 @@ var vis = new Visualizer();
 var ticker = new Ticker();
 
 var stepNo = 0;
+var data;
 var dimensions = 2;
-
-function dataFileLoaded() {
-    stepNo = 0;
-    numFrames = data.length;
-    kin = data.map(step => step['kin']);
-    pot = data.map(step => step['pot']);
-    ene = data.map(step => step['ene']);
-    vis.timeline.max = numFrames - 1;
-    vis.emptyDivs();
-    vis.createVisualizations();
-    vis.energyPlot.updateEnergyData(kin, pot, ene);
-    vis.velocityHistogramPlot.updateLayout(data);
-    vis.potentialVisualization.updateData(data);
-    vis.render();
-}
