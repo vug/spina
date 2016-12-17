@@ -54,10 +54,17 @@ function dataFileLoaded() {
     pot = data.map(step => step['pot']);
     ene = data.map(step => step['ene']);
     timeline.max = numFrames - 1;
+    emptyDivs();
     energyPlot.updateEnergyData(kin, pot, ene);
     velocityHistogramPlot.updateLayout(data);
     potentialVisualization.updateData(data);
     render();
+}
+
+function emptyDivs() {
+    for (var divId of ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist']) {
+        document.getElementById(divId).innerHTML = '';
+    }
 }
 
 function start() {
