@@ -1,9 +1,10 @@
 class Visualizer {
     constructor() {
+        this.dimensions = 2;
         if (typeof document.location.search !== "undefined") {
             // temporary solution to set dimensionality.
             // TODO: Get this value from simulation results file.
-            dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
+            this.dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
         }
         this.timeline = document.getElementById('time-slider');
         this.buttonPlay = document.getElementById('button-play');
@@ -16,7 +17,7 @@ class Visualizer {
         this.isPlaying = false;
         this.stepNo = 0;
         this.simData = null;
-        this.numSteps = 0
+        this.numSteps = 0;
         this.addListeners();
         this.animate();
     }
@@ -110,8 +111,6 @@ class Visualizer {
 }
 
 var inputFile = document.getElementById('input-file');
-var dimensions = 2;
-
 var vis = new Visualizer();
 var ticker = new Ticker();
 var loader = new SimulationResultLoader();
