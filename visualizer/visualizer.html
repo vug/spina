@@ -91,7 +91,7 @@
           </li>
           <li>
             <form class="navbar-form">
-              <input id="time-slider" min=0 type="range" v-model.number="visualizer.stepNo">
+              <input id="time-slider" min=0 type="range" v-model.number="visualizer.stepNo" v-on:change="visualizer.render()">
             </form>
           </li>
           <li>
