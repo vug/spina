@@ -11,6 +11,7 @@ class UI {
         this.timeline = document.getElementById('time-slider');
         this.display = document.getElementById('display');
         this.divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
+        this.loading = document.getElementById('loading');
 
         this.addListeners();
         this.visualizer.uiCallback = this.callback.bind(this);
@@ -21,10 +22,12 @@ class UI {
 
         this.inputFile.addEventListener('change', e => {
             var selectedFile = this.inputFile.files[0];
+            this.loading.setAttribute('class', 'glyphicon glyphicon-refresh glyphicon-spin');
             this.loader.loadFile(selectedFile, this.simulationResultLoaded.bind(this));
         }, false);
 
         this.button2DExample.addEventListener('click', e => {
+            this.loading.setAttribute('class', 'glyphicon glyphicon-refresh glyphicon-spin');
             this.loader.requestSimulationData(example2DUrl, this.simulationResultLoaded.bind(this));
         });
         this.buttonPlay.addEventListener('click', () => {
@@ -65,6 +68,7 @@ class UI {
         this.timeline.max = simData.length - 1;
         this.timeline.value = 0;
         this.visualizer.dataFileLoaded(simData);
+        this.loading.setAttribute('class', '');
     }
 
     callback(stepNo) {
