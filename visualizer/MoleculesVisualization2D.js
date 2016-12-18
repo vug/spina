@@ -1,6 +1,7 @@
 class MoleculesVisualization2D {
     constructor(elemId, size) {
         this.elem = document.getElementById(elemId);
+        this.elem.innerHTML = '';
 
         this.canvas = document.createElement('canvas');
         this.canvas.setAttribute('width', (size).toString());

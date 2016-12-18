@@ -10,11 +10,13 @@ function resizeVisualization(name) {
     // Sleeping 50 ms before calling newPlot is a hack. Should find a more robust solution.
     switch(name) {
         case 'mol':
+            var size = parseInt(vm.layout[name].style.width.split('px')[0]);
+            visualizer.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', size);
+            visualizer.moleculeVisualization.render(visualizer.simData, visualizer.stepNo);
             break;
         case 'pot':
             break;
         case 'ene':
-            console.log('visualizer.energyPlot.newPlot();');
             // visualizer.energyPlot.newPlot();
             setTimeout(() => visualizer.energyPlot.newPlot(), 50);
             break;
