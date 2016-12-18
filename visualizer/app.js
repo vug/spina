@@ -6,6 +6,24 @@ visualizer.uiCallback = function (stepNo) {
     // If an explicit change based on stepNo has to be made, put it here.
 };
 
+function resizeVisualization(name) {
+    // Sleeping 50 ms before calling newPlot is a hack. Should find a more robust solution.
+    switch(name) {
+        case 'mol':
+            break;
+        case 'pot':
+            break;
+        case 'ene':
+            console.log('visualizer.energyPlot.newPlot();');
+            // visualizer.energyPlot.newPlot();
+            setTimeout(() => visualizer.energyPlot.newPlot(), 50);
+            break;
+        case 'vel':
+            setTimeout(() => visualizer.velocityHistogramPlot.newPlot(), 50);
+            break;
+    }
+}
+
 var mainLayout = {
     mol: {show: true, style: {width: '300px', height: '300px', position: 'absolute', 'top': '100px', 'left': '50px'}},
     pot: {show: true, style: {width: '300px', height: '300px', position: 'absolute', 'top': '425px', 'left': '50px'}},
@@ -61,19 +79,11 @@ var vm = new Vue({
             this.layout[name].style = zoomStyle;
             this.layout[name].show = true;
 
-            switch(name) {
-                case 'mol':
-                    break;
-                case 'pot':
-                    break;
-                case 'ene':
-                    break;
-                case 'vel':
-                    break;
-            }
+            resizeVisualization(name);
         },
-        zoomOut: function() {
+        zoomOut: function(name) {
             this.layout = JSON.parse(JSON.stringify(mainLayout));
+            resizeVisualization(name);
         }
     },
     watch: {
