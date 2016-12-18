@@ -62,7 +62,7 @@
         <button class="btn btn-sm btn-default" v-on:click="info = infos[vis.name]">
           <span class="glyphicon glyphicon-info-sign"></span>
         </button>
-        <button class="btn btn-sm btn-default" v-on:click="zoom(vis.name)">
+        <button v-if="['mol', 'pot'].includes(vis.name)" class="btn btn-sm btn-default" v-on:click="zoom(vis.name)">
           <span v-if="!vis.zoomed" class="glyphicon glyphicon-zoom-in"></span>
           <span v-if="vis.zoomed" class="glyphicon glyphicon-zoom-out"></span>
         </button>
