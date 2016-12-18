@@ -34,10 +34,14 @@ function resizeVisualization(name) {
 }
 
 var mainLayout = {
-    mol: {show: true, style: {width: '300px', height: '300px', position: 'absolute', 'top': '100px', 'left': '50px'}},
-    pot: {show: true, style: {width: '300px', height: '300px', position: 'absolute', 'top': '425px', 'left': '50px'}},
-    ene: {show: true, style: {width: '400px', height: '300px', position: 'absolute', 'top': '100px', 'left': '375px'}},
-    vel: {show: true, style: {width: '400px', height: '300px', position: 'absolute', 'top': '425px', 'left': '375px'}}
+    mol: {show: true, zoomed: false, showInfo: false, label: 'Molecule', name: 'mol',
+        style: {width: '300px', height: '300px', position: 'absolute', 'top': '100px', 'left': '50px'}},
+    pot: {show: true, zoomed: false, showInfo: false, label: 'Potential', name: 'pot',
+        style: {width: '300px', height: '300px', position: 'absolute', 'top': '425px', 'left': '50px'}},
+    ene: {show: true, zoomed: false, showInfo: false, label: 'Energy', name: 'ene',
+        style: {width: '400px', height: '300px', position: 'absolute', 'top': '100px', 'left': '375px'}},
+    vel: {show: true, zoomed: false, showInfo: false, label: 'Velocity', name: 'vel',
+        style: {width: '400px', height: '300px', position: 'absolute', 'top': '425px', 'left': '375px'}}
 };
 
 var vm = new Vue({
@@ -87,12 +91,17 @@ var vm = new Vue({
 
             this.layout[name].style = zoomStyle;
             this.layout[name].show = true;
-
+            this.layout[name].zoomed = true;
             resizeVisualization(name);
         },
         zoomOut: function(name) {
             this.layout = JSON.parse(JSON.stringify(mainLayout));
+            this.layout[name].zoomed = false;
             resizeVisualization(name);
+        },
+        zoom: function(name) {
+            console.log(name, this.layout[name]);
+            this.layout[name].zoomed ? this.zoomOut(name) : this.zoomIn(name);
         }
     },
     watch: {

@@ -48,6 +48,19 @@
     <div id="plot-vel-dist" class="bordered" v-bind:style="layout.vel.style"
              v-show="layout.vel.show"></div>
 
+    <ul style="position: absolute; top: 100px; left: 780px; list-style-type: none">
+      <li v-for="vis in layout">
+        <button class="btn btn-sm btn-default" v-on:click="vis.showInfo = !vis.showInfo">
+          <span class="glyphicon glyphicon-info-sign"></span>
+        </button>
+        <button class="btn btn-sm btn-default" v-on:click="zoom(vis.name)">
+          <span v-if="!vis.zoomed" class="glyphicon glyphicon-zoom-in"></span>
+          <span v-if="vis.zoomed" class="glyphicon glyphicon-zoom-out"></span>
+        </button>
+        <label>{{vis.label}}</label>
+      </li>
+    </ul>
+
 
     <nav class="navbar navbar-inverse navbar-fixed-bottom">
       <div class="container-fluid">
