@@ -6,33 +6,6 @@ visualizer.uiCallback = function (stepNo) {
     // If an explicit change based on stepNo has to be made, put it here.
 };
 
-function resizeVisualization(name) {
-    var size = parseInt(vm.layout[name].style.width.split('px')[0]);
-
-    // Sleeping 50 ms before calling newPlot is a hack. Should find a more robust solution.
-    switch(name) {
-        case 'mol':
-            if (visualizer.dimensions === 3) {
-                visualizer.moleculeVisualization.setSize(size);
-            }
-            else {
-                visualizer.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', size);
-                visualizer.moleculeVisualization.render(visualizer.simData, visualizer.stepNo);
-            }
-            break;
-        case 'pot':
-            visualizer.potentialVisualization.setSize(size);
-            break;
-        case 'ene':
-            // visualizer.energyPlot.newPlot();
-            setTimeout(() => visualizer.energyPlot.newPlot(), 50);
-            break;
-        case 'vel':
-            setTimeout(() => visualizer.velocityHistogramPlot.newPlot(), 50);
-            break;
-    }
-}
-
 var visualizationInformations = {
     'main': `<p>Spina MD Simulation Visualizer</p>
 <p>First, load a simulation results file. For a quick example, click on "2D Example" or "3D Example" button to pull
@@ -115,6 +88,7 @@ var vm = new Vue({
             if(visualizer.simData) this.playing = !this.playing;
         },
         simulationResultLoaded: function (simData) {
+            this.playing = false;
             this.emptyDivs();
             document.getElementById('time-slider').max = simData.length - 1;
             document.getElementById('time-slider').value = 0;
@@ -148,17 +122,43 @@ var vm = new Vue({
             this.layout.vel.show = false;
 
             this.layout[name].style = zoomStyle;
+            console.log('layout style set to zoomStyle');
             this.layout[name].show = true;
             this.layout[name].zoomed = true;
-            resizeVisualization(name);
+            this.resizeVisualization(name);
         },
         zoomOut: function(name) {
             this.layout = JSON.parse(JSON.stringify(mainLayout));
             this.layout[name].zoomed = false;
-            resizeVisualization(name);
+            this.resizeVisualization(name);
         },
         zoom: function(name) {
             this.layout[name].zoomed ? this.zoomOut(name) : this.zoomIn(name);
+        },
+        resizeVisualization: function(name) {
+            var size = parseInt(vm.layout[name].style.width.split('px')[0]);
+
+            // Sleeping 50 ms before calling newPlot is a hack. Should find a more robust solution.
+            switch(name) {
+                case 'mol':
+                    if (this.visualizer.dimensions === 3) {
+                        this.visualizer.moleculeVisualization.setSize(size);
+                    }
+                    else {
+                        this.visualizer.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', size);
+                        this.visualizer.moleculeVisualization.render(this.visualizer.simData, this.visualizer.stepNo);
+                    }
+                    break;
+                case 'pot':
+                    this.visualizer.potentialVisualization.setSize(size);
+                    break;
+                case 'ene':
+                    setTimeout(() => {this.visualizer.energyPlot.newPlot(); console.log('energy newPlot');}, 100);
+                    break;
+                case 'vel':
+                    setTimeout(() => {this.visualizer.velocityHistogramPlot.newPlot(); console.log('velocity new Plot');}, 100);
+                    break;
+            }
         }
     },
     watch: {
