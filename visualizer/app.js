@@ -7,15 +7,15 @@ visualizer.uiCallback = function (stepNo) {
 };
 
 function resizeVisualization(name) {
+    var size = parseInt(vm.layout[name].style.width.split('px')[0]);
+
     // Sleeping 50 ms before calling newPlot is a hack. Should find a more robust solution.
     switch(name) {
         case 'mol':
-            var size = parseInt(vm.layout[name].style.width.split('px')[0]);
             visualizer.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', size);
             visualizer.moleculeVisualization.render(visualizer.simData, visualizer.stepNo);
             break;
         case 'pot':
-            var size = parseInt(vm.layout[name].style.width.split('px')[0]);
             visualizer.potentialVisualization.setSize(size);
             break;
         case 'ene':
