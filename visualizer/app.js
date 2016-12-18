@@ -6,6 +6,13 @@ visualizer.uiCallback = function (stepNo) {
     // If an explicit change based on stepNo has to be made, put it here.
 };
 
+var mainLayout = {
+    mol: {show: true, style: {width: '300px', height: '300px', position: 'absolute', 'top': '100px', 'left': '50px'}},
+    pot: {show: true, style: {width: '300px', height: '300px', position: 'absolute', 'top': '425px', 'left': '50px'}},
+    ene: {show: true, style: {width: '400px', height: '300px', position: 'absolute', 'top': '100px', 'left': '375px'}},
+    vel: {show: true, style: {width: '400px', height: '300px', position: 'absolute', 'top': '425px', 'left': '375px'}}
+};
+
 var vm = new Vue({
     el: '#vui',
     data: {
@@ -13,16 +20,7 @@ var vm = new Vue({
         playing: false,
         visualizer: visualizer,
         loading: false,
-        layout: {
-            showMol: true,
-            showPot: true,
-            showEne: true,
-            showVel: true,
-            styleMol: {width: '300px', height: '300px'},
-            stylePot: {width: '300px', height: '300px'},
-            styleEne: {width: '400px', height: '300px'},
-            styleVel: {width: '400px', height: '300px'}
-        }
+        layout: JSON.parse(JSON.stringify(mainLayout))  // hackish way of deep-copying an object
     },
     methods: {
         setSPS: function (event) {
