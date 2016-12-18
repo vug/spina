@@ -35,6 +35,7 @@ class UI {
         });
         this.timeline.addEventListener('input', () => {
             this.visualizer.stepNo = parseInt(this.timeline.value);
+            this.display.innerText = 'Step: ' + this.visualizer.stepNo.toString();
             if (this.visualizer.simData) this.visualizer.render();
         });
         this.inputSPS.addEventListener('change', () => {
