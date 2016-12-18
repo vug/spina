@@ -4,12 +4,6 @@ class Visualizer {
         this.uiCallback = null;
 
         this.dimensions = 2;
-        if (typeof document.location.search !== "undefined") {
-            // temporary solution to set dimensionality.
-            // TODO: Get this value from simulation results file.
-            this.dimensions = parseInt(document.location.search.slice(1).split('dim=')[1]);
-        }
-
         this.energyPlot = null;
         this.velocityHistogramPlot = null;
         this.moleculeVisualization = null;
@@ -51,6 +45,7 @@ class Visualizer {
         this.simData = simData;
         this.stepNo = 0;
         this.numSteps = this.simData.length;
+        this.dimensions = this.simData[0]['pos'][0].length;
         var kin = this.simData.map(step => step['kin']);
         var pot = this.simData.map(step => step['pot']);
         var ene = this.simData.map(step => step['ene']);
