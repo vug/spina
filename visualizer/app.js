@@ -15,6 +15,8 @@ function resizeVisualization(name) {
             visualizer.moleculeVisualization.render(visualizer.simData, visualizer.stepNo);
             break;
         case 'pot':
+            var size = parseInt(vm.layout[name].style.width.split('px')[0]);
+            visualizer.potentialVisualization.setSize(size);
             break;
         case 'ene':
             // visualizer.energyPlot.newPlot();
