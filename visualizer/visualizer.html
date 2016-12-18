@@ -19,14 +19,8 @@
 
 <body>
 <div id="vui">
-  <div class="container">
-      <span>
-        <label for="number-sps"><b>Settings:</b> StepsPerSecond: </label>
-        <input type="number" id="number-sps" v-model.number="stepsPerSecond" v-on:change="setSPS" min=1 max=200>
-      </span>
-
-
-    <div style="position: absolute; left: 780px; top: 10px;">
+  <ul class="container">
+    <div style="position: absolute; left: 750px; top: 10px;">
       <ul style="list-style-type: none;">
         <li>
           <span>Load Simulation </span>
@@ -56,7 +50,7 @@
     <div id="plot-vel-dist" class="bordered" v-bind:style="layout.vel.style"
              v-show="layout.vel.show"></div>
 
-    <ul style="position: absolute; top: 200px; left: 780px; list-style-type: none">
+    <ul style="position: absolute; top: 150px; left: 750px; list-style-type: none">
       <li v-for="vis in layout">
         <button class="btn btn-sm btn-default" v-on:click="vis.showInfo = !vis.showInfo">
           <span class="glyphicon glyphicon-info-sign"></span>
@@ -69,6 +63,13 @@
       </li>
     </ul>
 
+    <ul style="position: absolute; top: 300px; left: 750px; list-style-type: none">
+      <li><b>Settings:</b></li>
+      <li>
+        <label for="number-sps"> StepsPerSecond: </label>
+        <input type="number" id="number-sps" v-model.number="stepsPerSecond" v-on:change="setSPS" min=1 max=200>
+      </li>
+    </ul>
 
     <nav class="navbar navbar-inverse navbar-fixed-bottom">
       <div class="container-fluid">
