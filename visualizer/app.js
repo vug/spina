@@ -12,7 +12,8 @@ var vm = new Vue({
   data: {
     stepsPerSecond: 30,
     playing: false,
-    visualizer: visualizer
+    visualizer: visualizer,
+    loading: false
   },
   methods: {
       setSPS: function(event) {
@@ -20,11 +21,25 @@ var vm = new Vue({
       },
       loadFile: function(event) {
           var file = event.target.files[0];
-          loader.loadFile(file, ui.simulationResultLoaded.bind(ui));
+          this.loading = true;
+          loader.loadFile(file, this.simulationResultLoaded);
       },
       playPause: function(event) {
         this.playing = !this.playing;
       },
+      simulationResultLoaded: function(simData) {
+          this.emptyDivs();
+          document.getElementById('time-slider').max = simData.length - 1;
+          document.getElementById('time-slider').value = 0;
+          visualizer.dataFileLoaded(simData);
+          this.loading = false;
+      },
+      emptyDivs: function() {
+          var divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
+          for (var divId of divIds) {
+            document.getElementById(divId).innerHTML = '';
+          }
+      }
   },
   watch: {
       playing: function(newPlaying) {

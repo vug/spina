@@ -28,7 +28,7 @@
         <label class="btn btn-default btn-sm btn-file">
           Local File <input type="file" style="display: none;" id="input-file" v-on:change="loadFile">
         </label>
-        <span id="loading"></span>
+        <span class="glyphicon glyphicon-refresh glyphicon-spin" v-show="loading"></span>
       </span>
       <span class="pull-right">
         <label for="number-sps"><b>Settings:</b> StepsPerSecond: </label>
