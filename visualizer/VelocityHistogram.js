@@ -9,7 +9,7 @@ class VelocityHistogram {
                 autobinx: false,
                 xbins: {
                     start: 0,
-                    end: 2,
+                    end: 3,
                     size: 0.1
                 }
             }
