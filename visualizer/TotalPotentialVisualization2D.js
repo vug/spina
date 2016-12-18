@@ -16,6 +16,12 @@ class TotalPotentialVisualization2D {
         this.renderer.render(this.scene, this.camera);
     }
 
+    setSize(size) {
+        this.renderer.setSize(size, size);
+        this.uniforms.resolution.value.x = size;
+        this.uniforms.resolution.value.y = size;
+    }
+
     updateData(simData) {
         this.numParticles = simData[0]['pos'].length; // TODO: temporary solution. Value will directly come from simData
         var particlePositions = new Array(this.numParticles).fill(0).map((x, i) => new THREE.Vector2());
