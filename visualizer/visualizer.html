@@ -20,23 +20,31 @@
 <body>
 <div id="vui">
   <div class="container">
-    <div style="margin-top: 10px">
       <span>
-        <label>Load: </label>
-        <button id="btn-ex-2D" class="btn btn-default btn-sm"
-                v-on:click="loadExample('https://s3.amazonaws.com/ugur-fileserver/example_2D.json')">2D Example</button>
-        <button id="btn-ex-3D" class="btn btn-default btn-sm"
-                v-on:click="loadExample('https://s3.amazonaws.com/ugur-fileserver/example_3D.json')">3D Example</button>
-        <label class="btn btn-default btn-sm btn-file">
-          Local File <input type="file" style="display: none;" id="input-file" v-on:change="loadFile">
-        </label>
-        <span class="glyphicon glyphicon-refresh glyphicon-spin" v-show="loading"></span>
-      </span>
-      <span class="pull-right">
         <label for="number-sps"><b>Settings:</b> StepsPerSecond: </label>
         <input type="number" id="number-sps" v-model.number="stepsPerSecond" v-on:change="setSPS" min=1 max=200>
       </span>
-      <hr>
+
+
+    <div style="position: absolute; left: 780px; top: 10px;">
+      <ul style="list-style-type: none;">
+        <li>
+          <span>Load Simulation </span>
+          <span class="glyphicon glyphicon-refresh glyphicon-spin" v-show="loading"></span></li>
+        <li>
+          <button id="btn-ex-2D" class="btn btn-default btn-sm"
+                  v-on:click="loadExample('https://s3.amazonaws.com/ugur-fileserver/example_2D.json')">2D Example</button>
+        </li>
+        <li>
+          <button id="btn-ex-3D" class="btn btn-default btn-sm"
+                  v-on:click="loadExample('https://s3.amazonaws.com/ugur-fileserver/example_3D.json')">3D Example</button>
+        </li>
+        <li>
+          <label class="btn btn-default btn-sm btn-file">
+            Local File <input type="file" style="display: none;" id="input-file" v-on:change="loadFile">
+          </label>
+        </li>
+      </ul>
     </div>
 
     <div id="plot-molecules" class="bordered" v-bind:style="layout.mol.style"
@@ -48,7 +56,7 @@
     <div id="plot-vel-dist" class="bordered" v-bind:style="layout.vel.style"
              v-show="layout.vel.show"></div>
 
-    <ul style="position: absolute; top: 100px; left: 780px; list-style-type: none">
+    <ul style="position: absolute; top: 200px; left: 780px; list-style-type: none">
       <li v-for="vis in layout">
         <button class="btn btn-sm btn-default" v-on:click="vis.showInfo = !vis.showInfo">
           <span class="glyphicon glyphicon-info-sign"></span>
