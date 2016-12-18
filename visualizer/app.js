@@ -60,7 +60,6 @@ var vm = new Vue({
         },
         setSelectedMolecule: function(event) {
             var molId = parseInt(event.target.value);
-            console.log('setSelectedMolecule', molId);
             visualizer.potentialVisualization.uniforms.selectedParticleIdx.value = molId;
             visualizer.potentialVisualization.render(visualizer.simData, visualizer.stepNo);
         },
@@ -92,6 +91,13 @@ var vm = new Vue({
             loader.requestSimulationData(url, this.simulationResultLoaded);
         },
         zoomIn: function(name) {
+            // First zoomOut any visualization that was zoomed in
+            for (var visName in this.layout) {
+                if(this.layout[visName].zoomed) {
+                    this.zoomOut(visName);
+                }
+            }
+
             var zoomStyle = {width: '600px', height: '600px', position: 'absolute', 'top': '25px', 'left': '25px'};
             this.layout.mol.show = false;
             this.layout.pot.show = false;
