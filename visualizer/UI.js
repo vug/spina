@@ -6,6 +6,7 @@ class UI {
 
         this.buttonPlay = document.getElementById('button-play');
         this.button2DExample = document.getElementById('btn-ex-2D');
+        this.button3DExample = document.getElementById('btn-ex-3D');
         this.inputSPS = document.getElementById('number-sps');
         this.inputFile = document.getElementById('input-file');
         this.timeline = document.getElementById('time-slider');
@@ -19,6 +20,7 @@ class UI {
 
     addListeners() {
         var example2DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_2D.json';
+        var example3DUrl = 'https://s3.amazonaws.com/ugur-fileserver/example_3D.json';
 
         this.inputFile.addEventListener('change', e => {
             var selectedFile = this.inputFile.files[0];
@@ -29,6 +31,10 @@ class UI {
         this.button2DExample.addEventListener('click', e => {
             this.loading.setAttribute('class', 'glyphicon glyphicon-refresh glyphicon-spin');
             this.loader.requestSimulationData(example2DUrl, this.simulationResultLoaded.bind(this));
+        });
+        this.button3DExample.addEventListener('click', e => {
+            this.loading.setAttribute('class', 'glyphicon glyphicon-refresh glyphicon-spin');
+            this.loader.requestSimulationData(example3DUrl, this.simulationResultLoaded.bind(this));
         });
         this.buttonPlay.addEventListener('click', () => {
             this.visualizer.isPlaying ? this.pause() : this.play();
