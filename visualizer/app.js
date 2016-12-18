@@ -35,13 +35,13 @@ function resizeVisualization(name) {
 
 var mainLayout = {
     mol: {show: true, zoomed: false, showInfo: false, label: 'Molecule', name: 'mol',
-        style: {width: '300px', height: '300px', position: 'absolute', 'top': '100px', 'left': '50px'}},
+        style: {width: '300px', height: '300px', position: 'absolute', 'top': '25px', 'left': '25px'}},
     pot: {show: true, zoomed: false, showInfo: false, label: 'Potential', name: 'pot',
-        style: {width: '300px', height: '300px', position: 'absolute', 'top': '425px', 'left': '50px'}},
+        style: {width: '300px', height: '300px', position: 'absolute', 'top': '350px', 'left': '25px'}},
     ene: {show: true, zoomed: false, showInfo: false, label: 'Energy', name: 'ene',
-        style: {width: '400px', height: '300px', position: 'absolute', 'top': '100px', 'left': '375px'}},
+        style: {width: '400px', height: '300px', position: 'absolute', 'top': '25px', 'left': '350px'}},
     vel: {show: true, zoomed: false, showInfo: false, label: 'Velocity', name: 'vel',
-        style: {width: '400px', height: '300px', position: 'absolute', 'top': '425px', 'left': '375px'}}
+        style: {width: '400px', height: '300px', position: 'absolute', 'top': '350px', 'left': '350px'}}
 };
 
 var vm = new Vue({
@@ -83,7 +83,7 @@ var vm = new Vue({
             loader.requestSimulationData(url, this.simulationResultLoaded);
         },
         zoomIn: function(name) {
-            var zoomStyle = {width: '600px', height: '600px', position: 'absolute', 'top': '100px', 'left': '50px'};
+            var zoomStyle = {width: '600px', height: '600px', position: 'absolute', 'top': '25px', 'left': '25px'};
             this.layout.mol.show = false;
             this.layout.pot.show = false;
             this.layout.ene.show = false;
