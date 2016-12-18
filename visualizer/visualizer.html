@@ -10,6 +10,7 @@
   <script src="vendor/js/plotly.js"></script>
   <script src="vendor/js/three.js"></script>
   <script src="vendor/js/OrbitControls.js"></script>
+  <script src="vendor/js/vue.js"></script>
 
   <link rel="stylesheet" href="style.css">
   <style>
@@ -17,6 +18,7 @@
 </head>
 
 <body>
+<div id="vui">
   <div class="container">
     <div style="margin-top: 10px">
       <span>
@@ -24,13 +26,13 @@
         <button id="btn-ex-2D" class="btn btn-default btn-sm">2D Example</button>
         <button id="btn-ex-3D" class="btn btn-default btn-sm">3D Example</button>
         <label class="btn btn-default btn-sm btn-file">
-          Local File <input type="file" style="display: none;" id="input-file">
+          Local File <input type="file" style="display: none;" id="input-file" v-on:change="loadFile">
         </label>
         <span id="loading"></span>
       </span>
       <span class="pull-right">
         <label for="number-sps"><b>Settings:</b> StepsPerSecond: </label>
-        <input type="number" id="number-sps" value=30 min=1 max=200>
+        <input type="number" id="number-sps" v-model.number="stepsPerSecond" v-on:change="setSPS" min=1 max=200>
       </span>
       <hr>
     </div>
@@ -53,30 +55,32 @@
     </div>
   </div>  
 
-  <nav class="navbar navbar-inverse navbar-fixed-bottom">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Spina Visualizer</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="index.html">Home</a></li>
-        <li>
-          <button id="button-play" class="btn btn-default navbar-btn" aria-label="Left Align">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-          </button>
-        </li>           
-        <li>
-          <form class="navbar-form">
-            <input id="time-slider" min=0 value=0 type="range">
-          </form>
-        </li>
-        <li>
-          <span id="display"></span>
-        </li>
+    <nav class="navbar navbar-inverse navbar-fixed-bottom">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Spina Visualizer</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <button id="button-play" class="btn btn-default navbar-btn" aria-label="Left Align" v-on:click="playPause">
+              <span v-show="!playing" class="glyphicon glyphicon-play" aria-hidden="true"></span>
+              <span v-show="playing" class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+            </button>
+          </li>
+          <li>
+            <form class="navbar-form">
+              <input id="time-slider" min=0 type="range" v-model.number="visualizer.stepNo">
+            </form>
+          </li>
+          <li>
+            <span id="display">{{visualizer.stepNo}}</span>
+          </li>
 
-      </ul>
-    </div>
-  </nav>
+        </ul>
+      </div>
+    </nav>
+</div>
   <script>
   </script>
   <script src="MoleculesVisualization2D.js"></script>

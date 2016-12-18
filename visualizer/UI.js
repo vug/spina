@@ -15,7 +15,7 @@ class UI {
         this.loading = document.getElementById('loading');
 
         this.addListeners();
-        this.visualizer.uiCallback = this.callback.bind(this);
+        // this.visualizer.uiCallback = this.callback.bind(this);
     }
 
     addListeners() {
@@ -32,36 +32,6 @@ class UI {
             this.loading.setAttribute('class', 'glyphicon glyphicon-refresh glyphicon-spin');
             this.loader.requestSimulationData(example2DUrl, this.simulationResultLoaded.bind(this));
         });
-        this.button3DExample.addEventListener('click', e => {
-            this.loading.setAttribute('class', 'glyphicon glyphicon-refresh glyphicon-spin');
-            this.loader.requestSimulationData(example3DUrl, this.simulationResultLoaded.bind(this));
-        });
-        this.buttonPlay.addEventListener('click', () => {
-            this.visualizer.isPlaying ? this.pause() : this.play();
-        });
-        this.timeline.addEventListener('input', () => {
-            this.visualizer.stepNo = parseInt(this.timeline.value);
-            this.display.innerText = 'Step: ' + this.visualizer.stepNo.toString();
-            if (this.visualizer.simData) this.visualizer.render();
-        });
-        this.inputSPS.addEventListener('change', () => {
-            var sps = parseInt(this.inputSPS.value);
-            this.ticker.setStepsPerSecond(sps);
-        });
-    }
-
-    play() {
-        this.visualizer.isPlaying = true;
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
-    }
-
-    pause() {
-        this.visualizer.isPlaying = false;
-        this.ticker.prevFrameTime = undefined;
-        this.ticker.tickerTime = 0.0;
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-play');
-        this.buttonPlay.querySelector('span').classList.toggle('glyphicon-pause');
     }
 
     emptyDivs() {
@@ -72,14 +42,9 @@ class UI {
 
     simulationResultLoaded(simData) {
         this.emptyDivs();
-        this.timeline.max = simData.length - 1;
-        this.timeline.value = 0;
+        document.getElementById('time-slider').max = simData.length - 1;
+        document.getElementById('time-slider').value = 0;
         this.visualizer.dataFileLoaded(simData);
         this.loading.setAttribute('class', '');
-    }
-
-    callback(stepNo) {
-        this.timeline.value = stepNo;
-        this.display.innerText = 'Step: ' + stepNo.toString();
     }
 }
