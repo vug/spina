@@ -69,7 +69,7 @@ var vm = new Vue({
             loader.loadFile(file, this.simulationResultLoaded);
         },
         playPause: function (event) {
-            this.playing = !this.playing;
+            if(visualizer.simData) this.playing = !this.playing;
         },
         simulationResultLoaded: function (simData) {
             this.emptyDivs();
