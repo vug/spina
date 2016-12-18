@@ -100,7 +100,6 @@ var vm = new Vue({
             resizeVisualization(name);
         },
         zoom: function(name) {
-            console.log(name, this.layout[name]);
             this.layout[name].zoomed ? this.zoomOut(name) : this.zoomIn(name);
         }
     },
