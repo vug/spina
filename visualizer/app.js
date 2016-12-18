@@ -1,7 +1,6 @@
 var loader = new SimulationResultLoader();
 var ticker = new Ticker();
 var visualizer = new Visualizer(ticker);
-var ui = new UI(visualizer, loader, ticker);
 
 visualizer.uiCallback = function(stepNo) {
     // If an explicit change based on stepNo has to be made, put it here.
@@ -39,6 +38,10 @@ var vm = new Vue({
           for (var divId of divIds) {
             document.getElementById(divId).innerHTML = '';
           }
+      },
+      loadExample: function(url) {
+          this.loading = true;
+          loader.requestSimulationData(url, this.simulationResultLoaded);
       }
   },
   watch: {

@@ -23,8 +23,10 @@
     <div style="margin-top: 10px">
       <span>
         <label>Load: </label>
-        <button id="btn-ex-2D" class="btn btn-default btn-sm">2D Example</button>
-        <button id="btn-ex-3D" class="btn btn-default btn-sm">3D Example</button>
+        <button id="btn-ex-2D" class="btn btn-default btn-sm"
+                v-on:click="loadExample('https://s3.amazonaws.com/ugur-fileserver/example_2D.json')">2D Example</button>
+        <button id="btn-ex-3D" class="btn btn-default btn-sm"
+                v-on:click="loadExample('https://s3.amazonaws.com/ugur-fileserver/example_3D.json')">3D Example</button>
         <label class="btn btn-default btn-sm btn-file">
           Local File <input type="file" style="display: none;" id="input-file" v-on:change="loadFile">
         </label>
@@ -91,7 +93,6 @@
   <script src="TotalPotentialVisualization2D.js"></script>
   <script src="Ticker.js"></script>
   <script src="Visualizer.js"></script>
-  <script src="UI.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
