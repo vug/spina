@@ -12,8 +12,13 @@ function resizeVisualization(name) {
     // Sleeping 50 ms before calling newPlot is a hack. Should find a more robust solution.
     switch(name) {
         case 'mol':
-            visualizer.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', size);
-            visualizer.moleculeVisualization.render(visualizer.simData, visualizer.stepNo);
+            if (visualizer.dimensions === 3) {
+                visualizer.moleculeVisualization.setSize(size);
+            }
+            else {
+                visualizer.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', size);
+                visualizer.moleculeVisualization.render(visualizer.simData, visualizer.stepNo);
+            }
             break;
         case 'pot':
             visualizer.potentialVisualization.setSize(size);

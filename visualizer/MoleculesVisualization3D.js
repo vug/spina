@@ -39,6 +39,11 @@ class MoleculesVisualization3D {
         this.renderer.render(this.scene, this.camera);
     }
 
+    setSize(size) {
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(size, size);
+    }
+
     updateData(simData) {
         this.numParticles = simData[0]['pos'].length;
         this.meshes = [];
