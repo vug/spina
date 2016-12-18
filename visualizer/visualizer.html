@@ -69,6 +69,11 @@
         <label for="number-sps"> Steps Per Second: </label>
         <input type="number" id="number-sps" v-model.number="stepsPerSecond" v-on:change="setSPS" min=1 max=200>
       </li>
+      <li>
+        <label for="number-mol-id"> Select Molecule: </label>
+        <input type="number" id="number-mol-id" v-model.number="selectedMoleculeId" v-on:change="setSelectedMolecule"
+               min="0" max="100">
+      </li>
     </ul>
 
     <nav class="navbar navbar-inverse navbar-fixed-bottom">

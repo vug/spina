@@ -48,6 +48,7 @@ var vm = new Vue({
     el: '#vui',
     data: {
         stepsPerSecond: 30,
+        selectedMoleculeId: 0,
         playing: false,
         visualizer: visualizer,
         loading: false,
@@ -56,6 +57,12 @@ var vm = new Vue({
     methods: {
         setSPS: function (event) {
             ticker.setStepsPerSecond(this.stepsPerSecond);
+        },
+        setSelectedMolecule: function(event) {
+            var molId = parseInt(event.target.value);
+            console.log('setSelectedMolecule', molId);
+            visualizer.potentialVisualization.uniforms.selectedParticleIdx.value = molId;
+            visualizer.potentialVisualization.render(visualizer.simData, visualizer.stepNo);
         },
         loadFile: function (event) {
             var file = event.target.files[0];
@@ -71,6 +78,8 @@ var vm = new Vue({
             document.getElementById('time-slider').value = 0;
             visualizer.dataFileLoaded(simData);
             this.loading = false;
+            this.selectedMoleculeId = visualizer.potentialVisualization.uniforms.selectedParticleIdx.value;
+            document.getElementById('number-mol-id').max = simData[0]['pos'].length - 1;
         },
         emptyDivs: function () {
             var divIds = ['plot-molecules', 'plot-energies', 'plot-total-potential', 'plot-vel-dist'];
