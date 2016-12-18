@@ -18,8 +18,13 @@ class Visualizer {
     createVisualizations() {
         this.energyPlot = new EnergiesLineChart('plot-energies');
         this.velocityHistogramPlot = new VelocityHistogram('plot-vel-dist');
-        this.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', 300);
-        this.potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300);
+        if(this.dimensions === 3) {
+            this.moleculeVisualization = new MoleculesVisualization3D('plot-molecules', 300);
+        }
+        else {
+            this.moleculeVisualization = new MoleculesVisualization2D('plot-molecules', 300);
+            this.potentialVisualization = new TotalPotentialVisualization2D('plot-total-potential', 300);
+        }
     }
 
     animate() {
@@ -38,7 +43,7 @@ class Visualizer {
         this.moleculeVisualization.render(this.simData, this.stepNo);
         this.velocityHistogramPlot.updateDistribution(this.simData, this.stepNo);
         this.energyPlot.updateStepNoIndicator(this.stepNo);
-        this.potentialVisualization.render(this.simData, this.stepNo);
+        if(this.dimensions !== 3) this.potentialVisualization.render(this.simData, this.stepNo);
     }
 
     dataFileLoaded(simData) {
@@ -52,7 +57,12 @@ class Visualizer {
         this.createVisualizations();
         this.energyPlot.updateEnergyData(kin, pot, ene);
         this.velocityHistogramPlot.updateLayout(this.simData);
-        this.potentialVisualization.updateData(this.simData);
+        if(this.dimensions === 3) {
+            this.moleculeVisualization.updateData(this.simData);
+        }
+        else {
+            this.potentialVisualization.updateData(this.simData);
+        }
         this.render();
     }
 }
