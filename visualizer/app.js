@@ -50,6 +50,30 @@ var vm = new Vue({
         loadExample: function (url) {
             this.loading = true;
             loader.requestSimulationData(url, this.simulationResultLoaded);
+        },
+        zoomIn: function(name) {
+            var zoomStyle = {width: '600px', height: '600px', position: 'absolute', 'top': '100px', 'left': '50px'};
+            this.layout.mol.show = false;
+            this.layout.pot.show = false;
+            this.layout.ene.show = false;
+            this.layout.vel.show = false;
+
+            this.layout[name].style = zoomStyle;
+            this.layout[name].show = true;
+
+            switch(name) {
+                case 'mol':
+                    break;
+                case 'pot':
+                    break;
+                case 'ene':
+                    break;
+                case 'vel':
+                    break;
+            }
+        },
+        zoomOut: function() {
+            this.layout = JSON.parse(JSON.stringify(mainLayout));
         }
     },
     watch: {
