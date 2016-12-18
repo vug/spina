@@ -47,4 +47,8 @@ class VelocityHistogram {
         var maxVel = Math.max.apply(null, maxVels);
         return maxVel;
     }
+
+    newPlot() {
+        Plotly.newPlot(this.elemId, this.plotData, this.layout, {showLink: false});
+    }
 }

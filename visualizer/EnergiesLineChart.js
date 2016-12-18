@@ -48,5 +48,9 @@ class EnergiesLineChart {
     updateStepNoIndicator(stepNo) {
         this.step.x = [stepNo, stepNo];
         Plotly.redraw(this.elemId);
-    };
+    }
+
+    newPlot() {
+        Plotly.newPlot(this.elemId, this.plotData, this.layout, {showLink: false});
+    }
 }
