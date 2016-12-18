@@ -13,6 +13,16 @@ var vm = new Vue({
         playing: false,
         visualizer: visualizer,
         loading: false,
+        layout: {
+            showMol: true,
+            showPot: true,
+            showEne: true,
+            showVel: true,
+            styleMol: {width: '300px', height: '300px'},
+            stylePot: {width: '300px', height: '300px'},
+            styleEne: {width: '400px', height: '300px'},
+            styleVel: {width: '400px', height: '300px'}
+        }
     },
     methods: {
         setSPS: function (event) {
